@@ -1,0 +1,2927 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Lenguaje de la Química — Ecosistema Digital (DTLE) | QCB 111 - UMSA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-app: #F1F5F9;
+      --bg-surface: #FFFFFF;
+      --bg-subtle: #F8FAFC;
+      --bg-hover: #EFF6FF;
+      --navy-primary: #0F2942;
+      --navy-secondary: #1E3A5F;
+      --cyan-accent: #0284C7;
+      --cyan-light: #E0F2FE;
+      --emerald-ok: #059669;
+      --emerald-light: #D1FAE5;
+      --amber-warn: #D97706;
+      --amber-light: #FEF3C7;
+      --rose-err: #DC2626;
+      --rose-light: #FEE2E2;
+      --purple-tag: #7C3AED;
+      --purple-light: #EDE9FE;
+      --text-main: #0F172A;
+      --text-muted: #475569;
+      --text-soft: #64748B;
+      --border-color: #E2E8F0;
+      --shadow-sm: 0 1px 3px rgba(15, 41, 66, 0.06);
+      --shadow-md: 0 4px 12px rgba(15, 41, 66, 0.08);
+      --shadow-lg: 0 12px 28px rgba(15, 41, 66, 0.14);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --sidebar-w: 272px;
+      --header-h: 68px;
+    }
+
+    [data-theme="dark"] {
+      --bg-app: #09111E;
+      --bg-surface: #111E32;
+      --bg-subtle: #172740;
+      --bg-hover: #1E3352;
+      --navy-primary: #0B1628;
+      --navy-secondary: #1D3557;
+      --cyan-accent: #38BDF8;
+      --cyan-light: rgba(56, 189, 248, 0.15);
+      --emerald-ok: #34D399;
+      --emerald-light: rgba(52, 211, 153, 0.15);
+      --amber-warn: #FBBF24;
+      --amber-light: rgba(251, 191, 36, 0.15);
+      --rose-err: #F87171;
+      --rose-light: rgba(248, 113, 113, 0.15);
+      --purple-tag: #A78BFA;
+      --purple-light: rgba(167, 139, 250, 0.15);
+      --text-main: #F1F5F9;
+      --text-muted: #CBD5E1;
+      --text-soft: #94A3B8;
+      --border-color: #243856;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.25);
+      --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-app);
+      color: var(--text-main);
+      line-height: 1.55;
+      min-height: 100vh;
+      display: flex;
+      overflow-x: hidden;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-w);
+      background: #0F2942;
+      color: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 100;
+      transition: transform 0.28s ease;
+      border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .sidebar-brand {
+      padding: 18px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #0284C7, #059669);
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 10px rgba(2, 132, 199, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .brand-text span {
+      font-size: 0.72rem;
+      color: #93C5FD;
+      font-weight: 500;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-group-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #7DD3FC;
+      padding: 10px 12px 4px;
+      font-weight: 700;
+      opacity: 0.85;
+    }
+
+    .nav-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      background: transparent;
+      color: #CBD5E1;
+      font-size: 0.86rem;
+      font-weight: 500;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.16s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.08);
+      color: #FFFFFF;
+    }
+
+    .nav-btn.active {
+      background: linear-gradient(90deg, rgba(2, 132, 199, 0.32), rgba(2, 132, 199, 0.12));
+      color: #FFFFFF;
+      font-weight: 600;
+      border-left: 3px solid #38BDF8;
+    }
+
+    .nav-btn svg { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.9; }
+
+    .sidebar-footer {
+      padding: 12px 14px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      font-size: 0.74rem;
+      color: #94A3B8;
+    }
+
+    .reset-demo-btn {
+      margin-top: 8px;
+      width: 100%;
+      padding: 7px 10px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #CBD5E1;
+      border-radius: 6px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .reset-demo-btn:hover { background: rgba(220, 38, 38, 0.25); color: #FCA5A5; border-color: rgba(248,113,113,0.4); }
+
+    /* Main Wrapper */
+    .main-wrapper {
+      flex: 1;
+      margin-left: var(--sidebar-w);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      width: calc(100% - var(--sidebar-w));
+    }
+
+    /* Topbar */
+    .topbar {
+      height: var(--header-h);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 80;
+      gap: 16px;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-menu-btn {
+      display: none;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .page-title-bar h2 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .page-title-bar p {
+      font-size: 0.76rem;
+      color: var(--text-soft);
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .xp-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 999px;
+    }
+
+    .level-badge {
+      background: var(--cyan-light);
+      color: var(--cyan-accent);
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 999px;
+    }
+
+    .xp-bar-wrap {
+      width: 76px;
+      height: 6px;
+      background: var(--border-color);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .xp-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #0284C7, #059669);
+      width: 20%;
+      transition: width 0.35s ease;
+    }
+
+    .profile-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      padding: 5px 12px 5px 6px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: var(--text-main);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .profile-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: #0F2942;
+      color: #FFFFFF;
+      display: grid;
+      place-items: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .icon-btn:hover { border-color: var(--cyan-accent); color: var(--cyan-accent); }
+
+    /* Main Content Container */
+    .content-area {
+      flex: 1;
+      padding: 24px;
+      max-width: 1380px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .view-section { display: none; animation: fadeIn 0.22s ease; }
+    .view-section.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Grid & Cards */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+
+    .card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .card-subtitle {
+      font-size: 0.82rem;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    /* Badges & Tags */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 600;
+    }
+    .badge-cyan { background: var(--cyan-light); color: var(--cyan-accent); }
+    .badge-emerald { background: var(--emerald-light); color: var(--emerald-ok); }
+    .badge-amber { background: var(--amber-light); color: var(--amber-warn); }
+    .badge-purple { background: var(--purple-light); color: var(--purple-tag); }
+    .badge-rose { background: var(--rose-light); color: var(--rose-err); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.16s ease;
+    }
+
+    .btn-primary { background: #0284C7; color: #FFFFFF; }
+    .btn-primary:hover { background: #0369A1; }
+    .btn-navy { background: #0F2942; color: #FFFFFF; }
+    .btn-navy:hover { background: #1E3A5F; }
+    .btn-emerald { background: #059669; color: #FFFFFF; }
+    .btn-emerald:hover { background: #047857; }
+    .btn-amber { background: #D97706; color: #FFFFFF; }
+    .btn-amber:hover { background: #B45309; }
+    .btn-outline {
+      background: var(--bg-surface);
+      border-color: var(--border-color);
+      color: var(--text-main);
+    }
+    .btn-outline:hover { border-color: var(--cyan-accent); color: var(--cyan-accent); }
+    .btn-sm { padding: 6px 11px; font-size: 0.78rem; }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, #0F2942 0%, #163E63 55%, #0284C7 100%);
+      color: #FFFFFF;
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: var(--shadow-md);
+    }
+
+    .hero-banner h2 { font-size: 1.42rem; font-weight: 800; margin-bottom: 6px; }
+    .hero-banner p { font-size: 0.9rem; color: #E0F2FE; max-width: 680px; }
+
+    /* Johnstone Triangle Interactive */
+    .johnstone-box {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .triangle-svg-wrap {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tri-node { cursor: pointer; transition: transform 0.15s; }
+    .tri-node:hover circle { stroke-width: 4; }
+
+    /* Forms */
+    input[type="text"], input[type="date"], select, textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background: var(--bg-subtle);
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.86rem;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--cyan-accent);
+    }
+
+    /* Tables */
+    .table-wrap { overflow-x: auto; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background: var(--bg-subtle);
+      font-weight: 700;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Simulator Canvases */
+    .sim-canvas {
+      width: 100%;
+      height: 250px;
+      background: #0B1628;
+      border-radius: 10px;
+      display: block;
+      border: 1px solid var(--border-color);
+    }
+
+    /* Chat Tutor */
+    .chat-window {
+      height: 390px;
+      overflow-y: auto;
+      padding: 16px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .chat-msg {
+      max-width: 84%;
+      padding: 12px 15px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .chat-msg.bot {
+      align-self: flex-start;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--cyan-accent);
+    }
+    .chat-msg.user {
+      align-self: flex-end;
+      background: #0F2942;
+      color: #FFFFFF;
+    }
+
+    /* Calendar Grid */
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+    }
+    .cal-day-head {
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-soft);
+      padding: 6px 0;
+    }
+    .cal-cell {
+      min-height: 82px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 6px;
+      font-size: 0.76rem;
+    }
+    .cal-cell.today { border: 2px solid var(--cyan-accent); }
+    .cal-event-pill {
+      margin-top: 4px;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.69rem;
+      font-weight: 600;
+      background: var(--cyan-light);
+      color: var(--cyan-accent);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(9, 17, 30, 0.72);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      padding: 16px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      max-width: 920px;
+      width: 100%;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-head {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .modal-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      flex: 1;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 22px;
+      right: 22px;
+      background: #0F2942;
+      color: #FFFFFF;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-lg);
+      border-left: 4px solid #059669;
+      z-index: 300;
+      transform: translateY(120%);
+      opacity: 0;
+      transition: all 0.25s ease;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    /* Footer */
+    .app-footer {
+      padding: 18px 24px;
+      border-top: 1px solid var(--border-color);
+      background: var(--bg-surface);
+      font-size: 0.78rem;
+      color: var(--text-soft);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .grid-4 { grid-template-columns: repeat(2, 1fr); }
+      .grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .johnstone-box { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 820px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.open { transform: translateX(0); }
+      .main-wrapper { margin-left: 0; width: 100%; }
+      .mobile-menu-btn { display: grid; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .xp-bar-wrap { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo" aria-hidden="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2">
+          <path d="M9 3h6M10 3v5.5L4.5 18a2 2 0 0 0 1.7 3h11.6a2 2 0 0 0 1.7-3L14 8.5V3"/>
+          <path d="M7.5 14h9"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <h1>El Lenguaje de la Química</h1>
+        <span>DTLE • QCB 111 — UMSA</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav" id="sidebarNav" aria-label="Navegación principal del ecosistema">
+      <div class="nav-group-label">Núcleo del Ecosistema</div>
+      <button class="nav-btn active" data-view="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+        1. Panel DTLE (Inicio)
+      </button>
+      <button class="nav-btn" data-view="juegos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="4"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg>
+        2. Juegos MDA &amp; Formulación
+      </button>
+      <button class="nav-btn" data-view="laboratorios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31M14 9.3V1.99M8.5 2h7M14 9.3a6.5 6.5 0 1 1-4 0"/></svg>
+        3. Laboratorios Johnstone
+      </button>
+      <button class="nav-btn" data-view="examenes">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        4. Exámenes Diagnósticos
+      </button>
+      <button class="nav-btn" data-view="tutor">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8V4H8"/><rect x="4" y="8" width="16" height="12" rx="2"/><path d="M9 14h.01M15 14h.01"/></svg>
+        5. Tutor Virtual IA Química
+      </button>
+
+      <div class="nav-group-label">Comunidad &amp; Gestión Biótica</div>
+      <button class="nav-btn" data-view="aula">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        6. Aula Virtual QCB 111
+      </button>
+      <button class="nav-btn" data-view="calendario">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        7. Calendario Académico
+      </button>
+      <button class="nav-btn" data-view="foro">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        8. Foro Simbiótico
+      </button>
+      <button class="nav-btn" data-view="retos">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+        9. Retos Semanales &amp; Ranking
+      </button>
+      <button class="nav-btn" data-view="repositorios">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        10. Repositorios &amp; Tablas
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div><strong>Marco DTLE Activo:</strong> Abiótico + Biótico</div>
+      <button class="reset-demo-btn" id="resetDemoBtn">Reiniciar progreso de demostración</button>
+    </div>
+  </aside>
+
+  <!-- MAIN WRAPPER -->
+  <div class="main-wrapper">
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Abrir menú">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+        <div class="page-title-bar">
+          <h2 id="currentViewTitle">Panel del Ecosistema Digital (DTLE)</h2>
+          <p id="currentViewSub">Articulación de los niveles Macroscópico, Submicroscópico y Simbólico</p>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="xp-pill" title="Progreso de experiencia química">
+          <span class="level-badge" id="topLevelBadge">Aprendiz Alquimista</span>
+          <span class="mono" style="font-size:0.8rem;font-weight:700;" id="topXpValue">120 XP</span>
+          <div class="xp-bar-wrap"><div class="xp-bar-fill" id="topXpBar"></div></div>
+        </div>
+
+        <button class="profile-chip" id="editProfileBtn" title="Editar perfil académico">
+          <span class="profile-avatar" id="topAvatar">EQ</span>
+          <span id="topUserName">Estudiante UMSA</span>
+        </button>
+
+        <button class="icon-btn" id="themeToggleBtn" title="Alternar modo claro / oscuro" aria-label="Cambiar tema">
+          <svg id="themeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- CONTENT AREA -->
+    <main class="content-area">
+
+      <!-- =========================================================
+           1. DASHBOARD DTLE (INICIO)
+      ========================================================== -->
+      <section class="view-section active" id="view-dashboard">
+        <div class="hero-banner">
+          <div>
+            <span class="badge" style="background:rgba(255,255,255,0.16);color:#fff;margin-bottom:8px;">QCB 111 • Ciencias Químicas — UMSA</span>
+            <h2>Ecosistema Digital «El Lenguaje de la Química»</h2>
+            <p>Un entorno vivo (DTLE — Reyna, 2011; Judd et al., 2010) que integra simuladores interactivos, juegos lúdicos bajo modelo MDA, tutoría socrática y aprendizaje simbiótico entre pares.</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-emerald" onclick="switchView('laboratorios')">Explorar Simuladores</button>
+            <button class="btn btn-outline" style="background:rgba(255,255,255,0.12);color:#fff;border-color:rgba(255,255,255,0.3);" onclick="switchView('juegos')">Ir al Centro Lúdico</button>
+          </div>
+        </div>
+
+        <!-- KPI Metrics -->
+        <div class="grid-4" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-subtitle">Experiencia Acumulada</div>
+            <div style="font-size:1.6rem;font-weight:800;color:var(--cyan-accent);margin:4px 0;" id="dashXp">120 XP</div>
+            <span class="badge badge-cyan" id="dashLevel">Nivel 1: Aprendiz Alquimista</span>
+          </div>
+          <div class="card">
+            <div class="card-subtitle">Racha de Estudio Activo</div>
+            <div style="font-size:1.6rem;font-weight:800;color:var(--emerald-ok);margin:4px 0;" id="dashStreak">3 días</div>
+            <span class="badge badge-emerald">Canal de Flujo Activo</span>
+          </div>
+          <div class="card">
+            <div class="card-subtitle">Tareas &amp; Prácticas QCB 111</div>
+            <div style="font-size:1.6rem;font-weight:800;margin:4px 0;" id="dashTasks">1 / 6</div>
+            <span class="badge badge-amber">Aprendizaje Significativo</span>
+          </div>
+          <div class="card">
+            <div class="card-subtitle">Insignias Desbloqueadas</div>
+            <div style="font-size:1.6rem;font-weight:800;color:var(--purple-tag);margin:4px 0;" id="dashBadges">1 / 6</div>
+            <span class="badge badge-purple">Estética MDA</span>
+          </div>
+        </div>
+
+        <!-- Johnstone Triangle Interactive + DTLE Ecosystem -->
+        <div class="grid-2" style="margin-bottom:20px;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Triángulo de Representación de Johnstone (1991)</h3>
+                <p class="card-subtitle">Haz clic en cada vértice para articular los tres niveles en la síntesis de SO₂</p>
+              </div>
+              <span class="badge badge-cyan">Interactivo</span>
+            </div>
+            <div class="johnstone-box">
+              <div class="triangle-svg-wrap">
+                <svg width="240" height="215" viewBox="0 0 240 215" role="img" aria-label="Triángulo de Johnstone">
+                  <polygon points="120,24 28,184 212,184" fill="rgba(2,132,199,0.08)" stroke="#0284C7" stroke-width="2.5"/>
+                  <line x1="120" y1="24" x2="120" y2="132" stroke="#94A3B8" stroke-dasharray="4 3"/>
+                  <line x1="28" y1="184" x2="120" y2="132" stroke="#94A3B8" stroke-dasharray="4 3"/>
+                  <line x1="212" y1="184" x2="120" y2="132" stroke="#94A3B8" stroke-dasharray="4 3"/>
+                  <text x="120" y="136" text-anchor="middle" font-size="10" font-weight="700" fill="#64748B">COMPRENSIÓN</text>
+
+                  <g class="tri-node" onclick="selectJohnstone('macro')">
+                    <circle cx="120" cy="28" r="22" fill="#0F2942" stroke="#38BDF8" stroke-width="2.5"/>
+                    <text x="120" y="32" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">MACRO</text>
+                  </g>
+                  <g class="tri-node" onclick="selectJohnstone('submicro')">
+                    <circle cx="34" cy="182" r="22" fill="#059669" stroke="#A7F3D0" stroke-width="2.5"/>
+                    <text x="34" y="186" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700">SUBMICRO</text>
+                  </g>
+                  <g class="tri-node" onclick="selectJohnstone('simbolico')">
+                    <circle cx="206" cy="182" r="22" fill="#D97706" stroke="#FDE68A" stroke-width="2.5"/>
+                    <text x="206" y="186" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700">SÍMBOLO</text>
+                  </g>
+                </svg>
+              </div>
+              <div id="johnstoneDetail" style="background:var(--bg-subtle);padding:14px;border-radius:10px;border:1px solid var(--border-color);">
+                <span class="badge badge-cyan" style="margin-bottom:6px;">Nivel Macroscópico (Laboratorio)</span>
+                <h4 style="font-size:0.95rem;margin-bottom:6px;">Combustión del Azufre en Cucharilla</h4>
+                <p style="font-size:0.84rem;color:var(--text-muted);">Al calentar azufre sólido amarillo en presencia de oxígeno se observa una <strong>llama azul pálido</strong> y el desprendimiento de un gas picante e incoloro que al burbujear en agua vira el tornasol azul a rojo (carácter ácido).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Arquitectura DTLE: Factor Abiótico + Factor Biótico</h3>
+                <p class="card-subtitle">Superando el LMS pasivo mediante simbiosis académica (Reyna, 2011)</p>
+              </div>
+              <span class="badge badge-emerald">Ecosistema Vivo</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <div style="padding:12px;border-radius:10px;background:var(--cyan-light);border-left:4px solid var(--cyan-accent);">
+                <strong style="font-size:0.86rem;color:var(--navy-primary);">1. Factor Abiótico (Infraestructura Cognitiva)</strong>
+                <p style="font-size:0.81rem;color:var(--text-main);margin-top:3px;">Juegos interactivos (<em>Mendelev, Gusanito Elemental, Octeto</em>), simuladores HTML5 de radio atómico y síntesis de anhídridos, exámenes diagnósticos y biblioteca PDF.</p>
+              </div>
+              <div style="padding:12px;border-radius:10px;background:var(--emerald-light);border-left:4px solid var(--emerald-ok);">
+                <strong style="font-size:0.86rem;color:var(--navy-primary);">2. Factor Biótico — Mutualismo Académico</strong>
+                <p style="font-size:0.81rem;color:var(--text-main);margin-top:3px;">Interacción bidireccional en el <strong>Foro Simbiótico</strong> y retroalimentación socrática con el Tutor IA y docentes QCB 111: ambos participantes construyen rigor IUPAC.</p>
+              </div>
+              <div style="padding:12px;border-radius:10px;background:var(--amber-light);border-left:4px solid var(--amber-warn);">
+                <strong style="font-size:0.86rem;color:var(--navy-primary);">3. Factor Biótico — Comensalismo en Grupos de Estudio</strong>
+                <p style="font-size:0.81rem;color:var(--text-main);margin-top:3px;">Uso colaborativo de las cartas imprimibles <em>Octeto</em> y tablas de valencias compartidas en el Aula Virtual para fortalecer la comunidad estudiantil UMSA.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Direct Access to the 4 Author Real Resources -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Recursos Reales Integrados del Autor</h3>
+              <p class="card-subtitle">Acceso inmediato con vista previa integrada o apertura directa en nueva pestaña</p>
+            </div>
+            <span class="badge badge-navy" style="background:#0F2942;color:#fff;">4 Módulos Conectados</span>
+          </div>
+          <div class="grid-4" id="dashboardResourcesGrid"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           2. JUEGOS EDUCATIVOS INTERACTIVOS (CENTRO LÚDICO MDA)
+      ========================================================== -->
+      <section class="view-section" id="view-juegos">
+        <div class="card" style="margin-bottom:20px;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Centro Lúdico Basado en Modelo MDA y Teoría del Flujo</h3>
+              <p class="card-subtitle">Mecánicas químicas estrictas • Dinámicas de deducción progresiva • Estéticas de logro intelectual</p>
+            </div>
+            <div style="display:flex;gap:6px;">
+              <span class="badge badge-cyan">M: Reglas IUPAC/Periódicas</span>
+              <span class="badge badge-emerald">D: Canal de Flujo</span>
+              <span class="badge badge-amber">A: Descubrimiento + XP</span>
+            </div>
+          </div>
+
+          <div class="grid-3" id="gamesCardsContainer"></div>
+        </div>
+
+        <!-- Guide for Octeto Printable Card Game -->
+        <div class="card" style="margin-bottom:20px;border-left:4px solid var(--amber-warn);">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Guía Rápida: Juego de Cartas Físico «Octeto» (Comensalismo Académico)</h3>
+              <p class="card-subtitle">Protocolo de descarga, impresión y dinámica grupal para formación de compuestos inorgánicos</p>
+            </div>
+            <a class="btn btn-amber btn-sm" href="https://drive.google.com/drive/folders/1IQaFcLwJuuNxMHQwfbIDjS9WdewqQqJS?usp=drive_link" target="_blank" rel="noopener noreferrer">Abrir Carpeta Drive ↗</a>
+          </div>
+          <div class="grid-3">
+            <div style="background:var(--bg-subtle);padding:14px;border-radius:10px;">
+              <strong>Paso 1: Descarga e Impresión</strong>
+              <p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">Accede al enlace de Google Drive, descarga las láminas de <em>Cationes</em>, <em>Aniones</em> y <em>Cartas Especiales de Valencia</em>. Imprime en cartulina opalina (180–220 g) y recorta.</p>
+            </div>
+            <div style="background:var(--bg-subtle);padding:14px;border-radius:10px;">
+              <strong>Paso 2: Regla del Octeto y Neutralidad</strong>
+              <p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">En grupos de 3 a 5 estudiantes, cada jugador recibe 6 cartas. En su turno debe combinar cationes y aniones cuya suma algebraica de cargas sea <strong>cero (0)</strong> para bajar un óxido, hidróxido, ácido o sal.</p>
+            </div>
+            <div style="background:var(--bg-subtle);padding:14px;border-radius:10px;">
+              <strong>Paso 3: Validación Nomenclatural</strong>
+              <p style="font-size:0.83rem;color:var(--text-muted);margin-top:4px;">Para validar la jugada y sumar puntos, el estudiante debe enunciar correctamente el nombre <strong>IUPAC sistemático</strong> y <strong>tradicional</strong> del compuesto formado.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Integrated Quick Formulation Mini-Game -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Mini-Juego Integrado: Formulación Rápida (IUPAC vs. Tradicional)</h3>
+              <p class="card-subtitle">Práctica inmediata con retroalimentación electrónica y progresión por nivel de dificultad</p>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <label for="miniGameDiff" style="font-size:0.8rem;font-weight:600;">Nivel de Flujo:</label>
+              <select id="miniGameDiff" style="width:auto;" onchange="initMiniGameRound()">
+                <option value="basico">Básico (Óxidos y Anhídridos)</option>
+                <option value="intermedio">Intermedio (Hidróxidos y Ácidos)</option>
+                <option value="avanzado">Avanzado (Sales y Orgánicos)</option>
+              </select>
+              <span class="badge badge-emerald mono" id="miniGameScore">Racha: 0</span>
+            </div>
+          </div>
+
+          <div id="miniGameArea" style="background:var(--bg-subtle);padding:20px;border-radius:12px;border:1px solid var(--border-color);"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           3. LABORATORIOS VIRTUALES (TRIÁNGULO DE JOHNSTONE)
+      ========================================================== -->
+      <section class="view-section" id="view-laboratorios">
+        <div class="grid-2">
+          <!-- SIMULATOR A -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Simulador A: Tabla Periódica Predictiva</h3>
+                <p class="card-subtitle">Comparación cuantitativa de radio atómico (pm), configuración electrónica y energía de ionización</p>
+              </div>
+              <span class="badge badge-cyan">Nivel Submicro &amp; Simbólico</span>
+            </div>
+
+            <div class="grid-2" style="margin-bottom:14px;">
+              <div>
+                <label style="font-size:0.78rem;font-weight:700;display:block;margin-bottom:4px;">Elemento A</label>
+                <select id="simElemA" onchange="renderSimulatorA()"></select>
+              </div>
+              <div>
+                <label style="font-size:0.78rem;font-weight:700;display:block;margin-bottom:4px;">Elemento B</label>
+                <select id="simElemB" onchange="renderSimulatorA()"></select>
+              </div>
+            </div>
+
+            <div id="simAComparisonVisual" style="background:#0B1628;color:#F8FAFC;border-radius:12px;padding:16px;margin-bottom:14px;"></div>
+            <div id="simAAnalysis" style="font-size:0.84rem;color:var(--text-muted);background:var(--bg-subtle);padding:12px;border-radius:10px;border:1px solid var(--border-color);"></div>
+          </div>
+
+          <!-- SIMULATOR B -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Simulador B: Síntesis Experimental de Anhídridos</h3>
+                <p class="card-subtitle">Combustión de No Metal + O₂ → Óxido Ácido + Indicador Ácido-Base</p>
+              </div>
+              <span class="badge badge-emerald">3 Niveles Johnstone</span>
+            </div>
+
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center;">
+              <select id="simBReactant" style="max-width:220px;" onchange="resetSimulatorB()">
+                <option value="S">Azufre (S) + Oxígeno (O₂)</option>
+                <option value="C">Carbono (C) + Oxígeno (O₂)</option>
+                <option value="P">Fósforo Blanco (P₄) + O₂</option>
+              </select>
+              <button class="btn btn-amber btn-sm" id="simBIgniteBtn" onclick="igniteBunsen()">1. Encender Mechero Bunsen</button>
+              <button class="btn btn-primary btn-sm" id="simBHydrateBtn" onclick="addWaterIndicator()" disabled>2. Agregar H₂O + Tornasol</button>
+              <button class="btn btn-outline btn-sm" onclick="resetSimulatorB()">Reiniciar</button>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;">
+              <div>
+                <div style="font-size:0.74rem;font-weight:700;color:var(--text-soft);margin-bottom:4px;">VISTA MACROSCÓPICA (LABORATORIO)</div>
+                <canvas id="canvasMacro" class="sim-canvas" width="320" height="220"></canvas>
+              </div>
+              <div>
+                <div style="font-size:0.74rem;font-weight:700;color:var(--text-soft);margin-bottom:4px;">VISTA SUBMICROSCÓPICA (MOLÉCULAS)</div>
+                <canvas id="canvasMicro" class="sim-canvas" width="320" height="220"></canvas>
+              </div>
+            </div>
+
+            <div id="simBSymbolicBox" style="background:var(--bg-subtle);padding:12px;border-radius:10px;border:1px solid var(--border-color);font-size:0.84rem;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           4. EXÁMENES SIMULACRO CON RETROALIMENTACIÓN DIAGNÓSTICA
+      ========================================================== -->
+      <section class="view-section" id="view-examenes">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Banco Diagnóstico Parametrizado — Química General (QCB 111)</h3>
+              <p class="card-subtitle">15 ítems enfocados en brechas conceptuales críticas con retroalimentación electrónica e IUPAC</p>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+              <select id="quizTopicFilter" style="width:auto;" onchange="renderQuizList()">
+                <option value="all">Todos los temas (15 preguntas)</option>
+                <option value="periodica">Energía de Ionización y Radio Atómico</option>
+                <option value="anhidridos">Formación y Síntesis de Anhídridos</option>
+                <option value="carbonilo">Grupos Funcionales (con/sin C=O)</option>
+                <option value="nomenclatura">Nomenclatura IUPAC y Tradicional</option>
+              </select>
+              <button class="btn btn-primary btn-sm" onclick="shuffleAndRenderQuiz()">Aleatorizar Orden</button>
+            </div>
+          </div>
+
+          <div id="quizSummaryBar" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;padding:12px;background:var(--bg-subtle);border-radius:10px;border:1px solid var(--border-color);align-items:center;justify-content:space-between;">
+            <span style="font-size:0.85rem;font-weight:600;" id="quizScoreText">Respondidas: 0 | Aciertos: 0</span>
+            <span class="badge badge-emerald">+25 XP por cada respuesta razonada correcta</span>
+          </div>
+
+          <div id="quizContainer" style="display:flex;flex-direction:column;gap:16px;"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           5. TUTOR VIRTUAL IA ESPECIALIZADO EN QUÍMICA
+      ========================================================== -->
+      <section class="view-section" id="view-tutor">
+        <div class="grid-2" style="grid-template-columns: 2fr 1fr;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Tutor Socrático IA — «El Lenguaje de la Química»</h3>
+                <p class="card-subtitle">Motor de reglas químicas offline + Guía paso a paso (sin entregar respuestas directas para copiar)</p>
+              </div>
+              <span class="badge badge-emerald">Guardrail Pedagógico Activo</span>
+            </div>
+
+            <!-- Quick Query Chips -->
+            <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;">
+              <button class="btn btn-outline btn-sm" onclick="sendTutorQuick('¿Cómo nombrar un anhídrido?')">¿Cómo nombrar un anhídrido?</button>
+              <button class="btn btn-outline btn-sm" onclick="sendTutorQuick('Diferencia entre alcohol, cetona y ácido carboxílico')">Alcohol vs. Cetona vs. Ácido</button>
+              <button class="btn btn-outline btn-sm" onclick="sendTutorQuick('Explicar tendencia del radio atómico')">Tendencia del radio atómico</button>
+              <button class="btn btn-outline btn-sm" onclick="sendTutorQuick('Analizar fórmula SO3')">Analizar fórmula SO₃</button>
+              <button class="btn btn-outline btn-sm" onclick="sendTutorQuick('Analizar fórmula H2SO4')">Analizar fórmula H₂SO₄</button>
+            </div>
+
+            <div class="chat-window" id="tutorChatWindow"></div>
+
+            <form id="tutorForm" style="display:flex;gap:8px;margin-top:12px;" onsubmit="handleTutorSubmit(event)">
+              <input type="text" id="tutorInput" placeholder="Escribe una fórmula (ej. Fe2O3, CH3COCH3, HNO3) o consulta conceptual..." required />
+              <button type="submit" class="btn btn-primary">Consultar</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:8px;">Protocolo Anti-Alucinación y Andamiaje</h3>
+            <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:12px;">Siguiendo a <strong>Ausubel (1968)</strong> y <strong>Mayer (2020)</strong>, este tutor nunca actúa como solucionario automático. Cada intervención estructura:</p>
+            <ol style="font-size:0.82rem;color:var(--text-main);padding-left:18px;display:flex;flex-direction:column;gap:8px;margin-bottom:16px;">
+              <li><strong>Identificación funcional:</strong> Naturaleza metálica/no metálica o grupo funcional ($C=O$, $-OH$).</li>
+              <li><strong>Deducción electrónica:</strong> Cálculo algebraico de estados de oxidación.</li>
+              <li><strong>Regla IUPAC / Tradicional:</strong> Prefijos, sufijos y numerales de Stock.</li>
+              <li><strong>Verificación activa:</strong> Pregunta de comprobación al estudiante.</li>
+            </ol>
+
+            <details style="background:var(--bg-subtle);padding:10px;border-radius:8px;border:1px solid var(--border-color);font-size:0.8rem;">
+              <summary style="cursor:pointer;font-weight:600;">Configuración Opcional de API Externa</summary>
+              <p style="color:var(--text-soft);margin:6px 0;">El motor químico local funciona 100% sin internet ni claves. Si deseas conectar un endpoint compatible con OpenAI/LLM, ingrésalo aquí (se guarda solo en tu navegador):</p>
+              <input type="text" id="optionalApiKey" placeholder="sk-... (Opcional)" style="margin-bottom:6px;" />
+              <button type="button" class="btn btn-outline btn-sm" onclick="saveOptionalApiKey()">Guardar clave local</button>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           6. AULA VIRTUAL (GESTIÓN DE CLASES, MÓDULOS Y TAREAS)
+      ========================================================== -->
+      <section class="view-section" id="view-aula">
+        <div class="card" style="margin-bottom:18px;">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Aula Virtual QCB 111 — Unidades Temáticas y Entregables</h3>
+              <p class="card-subtitle">Marca actividades completadas, registra enlaces de entrega y accede al material asociado</p>
+            </div>
+            <span class="badge badge-cyan" id="aulaProgressBadge">Progreso: 17%</span>
+          </div>
+          <div id="classroomUnitsContainer" style="display:flex;flex-direction:column;gap:16px;"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           7. CALENDARIO VIRTUAL ACADÉMICO
+      ========================================================== -->
+      <section class="view-section" id="view-calendario">
+        <div class="grid-2" style="grid-template-columns: 2fr 1fr;">
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title" id="calendarMonthTitle">Calendario Académico QCB 111</h3>
+                <p class="card-subtitle">Prácticas de laboratorio, retos semanales y evaluaciones parciales</p>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-outline btn-sm" onclick="changeCalMonth(-1)">◀ Anterior</button>
+                <button class="btn btn-outline btn-sm" onclick="changeCalMonth(1)">Siguiente ▶</button>
+              </div>
+            </div>
+            <div class="cal-grid" id="calendarGrid"></div>
+          </div>
+
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:6px;">Agregar Recordatorio Académico</h3>
+            <p class="card-subtitle" style="margin-bottom:12px;">Se guarda localmente en tu navegador</p>
+            <form onsubmit="addCalendarEvent(event)" style="display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Fecha</label>
+                <input type="date" id="evDate" required />
+              </div>
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Título de la actividad</label>
+                <input type="text" id="evTitle" placeholder="Ej. Entrega ficha de anhídridos" required />
+              </div>
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Categoría</label>
+                <select id="evType">
+                  <option value="Laboratorio">Práctica de Laboratorio</option>
+                  <option value="Evaluación">Evaluación / Parcial</option>
+                  <option value="Reto">Reto Semanal MDA</option>
+                  <option value="Tarea">Entrega de Ficha</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary">Guardar Evento (+15 XP)</button>
+            </form>
+
+            <h4 style="font-size:0.86rem;margin:16px 0 8px;">Próximos Eventos Programados</h4>
+            <div id="upcomingEventsList" style="display:flex;flex-direction:column;gap:8px;max-height:240px;overflow-y:auto;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           8. FORO DE DEBATES Y CONSULTAS (INTERACCIÓN BIÓTICA)
+      ========================================================== -->
+      <section class="view-section" id="view-foro">
+        <div class="grid-2" style="grid-template-columns: 1fr 2fr;">
+          <div class="card">
+            <h3 class="card-title" style="margin-bottom:6px;">Nueva Consulta o Aporte Simbiótico</h3>
+            <p class="card-subtitle" style="margin-bottom:12px;">Fomenta el <strong>mutualismo</strong> (resolución entre pares) y <strong>comensalismo</strong> (recursos compartidos)</p>
+            <form onsubmit="createForumThread(event)" style="display:flex;flex-direction:column;gap:10px;">
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Etiqueta Temática</label>
+                <select id="forumTag">
+                  <option value="#TablaPeriódica">#TablaPeriódica</option>
+                  <option value="#NomenclaturaIUPAC">#NomenclaturaIUPAC</option>
+                  <option value="#Laboratorio">#Laboratorio</option>
+                  <option value="#GrupoDeEstudio">#GrupoDeEstudio</option>
+                </select>
+              </div>
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Título del Hilo</label>
+                <input type="text" id="forumTitle" placeholder="Ej. Duda sobre valencias del manganeso en anhídridos" required />
+              </div>
+              <div>
+                <label style="font-size:0.78rem;font-weight:600;">Descripción / Hipótesis inicial</label>
+                <textarea id="forumBody" rows="4" placeholder="Explica tu razonamiento macroscópico, submicroscópico o simbólico..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-emerald">Publicar en el Foro (+20 XP)</button>
+            </form>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Comunidad Biótica QCB 111 — Debates Activos</h3>
+                <p class="card-subtitle">Filtra por etiqueta, responde hilos y vota las explicaciones más claras</p>
+              </div>
+              <select id="forumFilterTag" style="width:auto;" onchange="renderForum()">
+                <option value="all">Todas las etiquetas</option>
+                <option value="#TablaPeriódica">#TablaPeriódica</option>
+                <option value="#NomenclaturaIUPAC">#NomenclaturaIUPAC</option>
+                <option value="#Laboratorio">#Laboratorio</option>
+                <option value="#GrupoDeEstudio">#GrupoDeEstudio</option>
+              </select>
+            </div>
+            <div id="forumThreadsContainer" style="display:flex;flex-direction:column;gap:14px;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           9. RETOS SEMANALES Y RANKING (GAMIFICACIÓN)
+      ========================================================== -->
+      <section class="view-section" id="view-retos">
+        <div class="grid-2" style="margin-bottom:20px;">
+          <!-- Timed Weekly Challenge -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Reto Semanal Cronometrado: 60 Segundos sin Error</h3>
+                <p class="card-subtitle">Formula o nombra 10 compuestos químicos bajo presión controlada de flujo</p>
+              </div>
+              <span class="badge badge-rose mono" id="challengeTimerBadge">60s</span>
+            </div>
+
+            <div id="challengeArena" style="background:var(--bg-subtle);padding:18px;border-radius:12px;border:1px solid var(--border-color);text-align:center;">
+              <p style="font-size:0.88rem;color:var(--text-muted);margin-bottom:14px;">¿Listo para poner a prueba tu dominio del lenguaje químico? Cada acierto suma <strong>+30 XP</strong> y desbloquea insignias.</p>
+              <button class="btn btn-primary" onclick="startWeeklyChallenge()">Iniciar Reto de 60 Segundos</button>
+            </div>
+          </div>
+
+          <!-- Leaderboard -->
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <h3 class="card-title">Tabla de Clasificación — Paralelo QCB 111</h3>
+                <p class="card-subtitle">Ranking dinámico actualizado con tu puntaje XP en tiempo real</p>
+              </div>
+              <span class="badge badge-amber">Temporada 2026</span>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Puesto</th>
+                    <th>Estudiante / Rol</th>
+                    <th>Nivel Químico</th>
+                    <th>XP</th>
+                  </tr>
+                </thead>
+                <tbody id="leaderboardBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Badges Showcase -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Vitrina de Insignias Químicas Desbloqueables</h3>
+              <p class="card-subtitle">Reconocimientos vinculados al dominio de competencias específicas</p>
+            </div>
+          </div>
+          <div class="grid-3" id="badgesGrid"></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           10. REPOSITORIOS INTEGRADOS & TABLAS DE CONSULTA
+      ========================================================== -->
+      <section class="view-section" id="view-repositorios">
+        <div class="grid-2" style="margin-bottom:20px;">
+          <div class="card" style="border-top:4px solid var(--cyan-accent);">
+            <div class="card-header">
+              <div>
+                <span class="badge badge-cyan" style="margin-bottom:6px;">Módulo 3 • Audiovisual</span>
+                <h3 class="card-title">Portal de Tutoriales — Química Orgánica II y Nomenclatura</h3>
+              </div>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;">Explicaciones paso a paso, demostraciones experimentales y resolución guiada de ejercicios para conectar mecanismos de reacción y nomenclatura sistemática.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-primary btn-sm" onclick="openResourceModal('tutoriales')">Vista Previa en Modal</button>
+              <a class="btn btn-outline btn-sm" href="https://amaldonadom-sketch.github.io/Qu-mica-Org-nica-II-/" target="_blank" rel="noopener noreferrer">Abrir Portal en Nueva Pestaña ↗</a>
+            </div>
+          </div>
+
+          <div class="card" style="border-top:4px solid var(--emerald-ok);">
+            <div class="card-header">
+              <div>
+                <span class="badge badge-emerald" style="margin-bottom:6px;">Módulo 4 • Biblioteca Digital</span>
+                <h3 class="card-title">Repositorio Bibliográfico en Google Drive</h3>
+              </div>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:14px;">Libros digitales universitarios, tablas oficiales de valencias y cationes-aniones, guías de laboratorio y lecturas complementarias para respaldar el rigor teórico de QCB 111.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-emerald btn-sm" onclick="openResourceModal('biblioteca')">Vista Previa en Modal</button>
+              <a class="btn btn-outline btn-sm" href="https://drive.google.com/drive/folders/1GqCYBvjjO8_QEUCxYH7CkdKLDmWW24kN?usp=drive_link" target="_blank" rel="noopener noreferrer">Abrir Carpeta Drive ↗</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Reference Tables: Valences & Functional Groups -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Tabla Rápida de Consulta: Valencias, Aniones y Grupos Funcionales</h3>
+              <p class="card-subtitle">Herramienta de consulta inmediata durante tus prácticas de laboratorio y resolución de ejercicios</p>
+            </div>
+            <input type="text" id="refSearchInput" placeholder="Buscar elemento, ion o grupo (ej. Azufre, Sulfato, Cetona)..." style="max-width:320px;" oninput="renderReferenceTables()" />
+          </div>
+
+          <div class="grid-2">
+            <div>
+              <h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--cyan-accent);">1. Valencias Frecuentes e Iones Poliatómicos</h4>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Especie / Elemento</th>
+                      <th>Símbolo / Fórmula</th>
+                      <th>Valencia / Carga</th>
+                      <th>Terminación Tradicional</th>
+                    </tr>
+                  </thead>
+                  <tbody id="refValencesBody"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div>
+              <h4 style="font-size:0.9rem;margin-bottom:8px;color:var(--emerald-ok);">2. Grupos Funcionales Orgánicos (Con y Sin Carbonilo C=O)</h4>
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Función Química</th>
+                      <th>Grupo Funcional</th>
+                      <th>¿Posee C=O?</th>
+                      <th>Sufijo IUPAC</th>
+                    </tr>
+                  </thead>
+                  <tbody id="refFunctionalBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <div><strong>Ecosistema Digital «El Lenguaje de la Química»</strong> — Propuesta Didáctica para Química General (QCB 111) | Carrera de Ciencias Químicas — UMSA</div>
+      <div>Fundamentos: DTLE (Reyna, 2011) • Johnstone (1991) • Mayer (2020) • Modelo MDA</div>
+    </footer>
+  </div>
+
+  <!-- MODAL: RESOURCE PREVIEW -->
+  <div class="modal-backdrop" id="resourceModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <h3 class="card-title" id="modalResTitle">Vista Previa del Recurso</h3>
+          <p class="card-subtitle" id="modalResDesc">Recurso externo integrado</p>
+        </div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <a id="modalResExternalLink" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Abrir en Nueva Pestaña ↗</a>
+          <button class="btn btn-outline btn-sm" onclick="closeModal('resourceModal')">Cerrar ✕</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div id="modalResNotice" style="background:var(--amber-light);color:var(--text-main);padding:10px 14px;border-radius:8px;font-size:0.82rem;margin-bottom:12px;">
+          <strong>Nota técnica:</strong> Algunos servicios externos (como carpetas de Google Drive) restringen la incrustación directa por políticas de seguridad del navegador. Si no visualizas el contenido abajo, utiliza el botón superior <strong>«Abrir en Nueva Pestaña ↗»</strong>.
+        </div>
+        <iframe id="modalResIframe" src="about:blank" title="Vista previa del recurso educativo" style="width:100%;height:460px;border:1px solid var(--border-color);border-radius:10px;background:#fff;"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROFILE EDITOR -->
+  <div class="modal-backdrop" id="profileModal">
+    <div class="modal-box" style="max-width:460px;">
+      <div class="modal-head">
+        <h3 class="card-title">Perfil Académico QCB 111</h3>
+        <button class="btn btn-outline btn-sm" onclick="closeModal('profileModal')">Cerrar ✕</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="saveUserProfile(event)" style="display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <label style="font-size:0.8rem;font-weight:600;">Nombre Completo</label>
+            <input type="text" id="profileNameInput" required />
+          </div>
+          <div>
+            <label style="font-size:0.8rem;font-weight:600;">Rol en el Ecosistema DTLE</label>
+            <select id="profileRoleInput">
+              <option value="Estudiante QCB 111">Estudiante QCB 111 (UMSA)</option>
+              <option value="Auxiliar de Docencia">Auxiliar de Docencia</option>
+              <option value="Docente Investigador">Docente Investigador</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toastEl"></div>
+
+  <script>
+    /* =====================================================================
+       1. DATA & PEDAGOGICAL KNOWLEDGE BASE
+    ====================================================================== */
+    const STORAGE_KEY = 'umsa_qcb111_dtle_ecosystem_v1';
+
+    const RESOURCES = {
+      mendelev: {
+        id: 'mendelev',
+        module: 'Módulo 1 • Tabla Periódica',
+        title: 'Juego 1 — Mendelev',
+        url: 'https://amaldonadom-sketch.github.io/Mendelev/',
+        desc: 'Ubicación por grupos y periodos, símbolos, números atómicos y deducción funcional de tendencias periódicas (radio atómico y energía de ionización).',
+        mda: 'Mecánica: Coordenadas (grupo/periodo) • Dinámica: Deducción periódica • Estética: Exploración',
+        diff: 'Básico → Intermedio',
+        badgeClass: 'badge-cyan'
+      },
+      gusanito: {
+        id: 'gusanito',
+        module: 'Módulo 1 • Tabla Periódica',
+        title: 'Juego 2 — Gusanito Elemental',
+        url: 'https://amaldonadom-sketch.github.io/Gusanito-Elemental/',
+        desc: 'Reconocimiento ágil de elementos químicos, familias periódicas y propiedades atómicas bajo dinámicas de flujo (Csikszentmihalyi).',
+        mda: 'Mecánica: Captura selectiva por familia • Dinámica: Velocidad creciente • Estética: Flujo y precisión',
+        diff: 'Intermedio',
+        badgeClass: 'badge-emerald'
+      },
+      octeto: {
+        id: 'octeto',
+        module: 'Módulo 2 • Enlaces y Valencias',
+        title: 'Juego de Cartas — Octeto (Imprimible)',
+        url: 'https://drive.google.com/drive/folders/1IQaFcLwJuuNxMHQwfbIDjS9WdewqQqJS?usp=drive_link',
+        desc: 'Recurso lúdico físico descargable para impresión (cartas de cationes, aniones y valencias) orientado a la formación de óxidos, anhídridos, hidróxidos, ácidos y sales mediante la regla del octeto.',
+        mda: 'Mecánica: Suma de cargas = 0 • Dinámica: Comensalismo grupal • Estética: Estrategia colaborativa',
+        diff: 'Básico → Avanzado',
+        badgeClass: 'badge-amber'
+      },
+      tutoriales: {
+        id: 'tutoriales',
+        module: 'Módulo 3 • Audiovisual',
+        title: 'Portal de Tutoriales — Química Orgánica II y Nomenclatura',
+        url: 'https://amaldonadom-sketch.github.io/Qu-mica-Org-nica-II-/',
+        desc: 'Explicaciones paso a paso, demostraciones experimentales y resolución guiada de ejercicios.',
+        mda: 'Multimedia Mayer (2020)',
+        diff: 'Todos los niveles',
+        badgeClass: 'badge-purple'
+      },
+      biblioteca: {
+        id: 'biblioteca',
+        module: 'Módulo 4 • Biblioteca PDF',
+        title: 'Repositorio Bibliográfico en Drive',
+        url: 'https://drive.google.com/drive/folders/1GqCYBvjjO8_QEUCxYH7CkdKLDmWW24kN?usp=drive_link',
+        desc: 'Libros digitales, tablas de valencias/cationes-aniones, guías de estudio y lecturas complementarias para respaldar el rigor teórico.',
+        mda: 'Rigor Teórico Ausubel',
+        diff: 'Consulta Académica',
+        badgeClass: 'badge-cyan'
+      }
+    };
+
+    const ELEMENTS_DATA = [
+      { sym: 'Li', name: 'Litio', z: 3, group: '1 (IA)', period: 2, radius: 152, ie: 520, en: 0.98, config: '1s² 2s¹', val: '+1', context: 'Recurso estratégico del Salar de Uyuni (Bolivia); baja energía de ionización facilita formar Li⁺ en salmueras.' },
+      { sym: 'Na', name: 'Sodio', z: 11, group: '1 (IA)', period: 3, radius: 186, ie: 496, en: 0.93, config: '[Ne] 3s¹', val: '+1', context: 'Mayor radio que el Li por añadir la capa n=3; reacciona vigorosamente con agua formando NaOH.' },
+      { sym: 'K', name: 'Potasio', z: 19, group: '1 (IA)', period: 4, radius: 227, ie: 419, en: 0.82, config: '[Ar] 4s¹', val: '+1', context: 'Presente en la silvita de los salares altiplánicos; electrón 4s¹ muy apantallado y fácil de ionizar.' },
+      { sym: 'Be', name: 'Berilio', z: 4, group: '2 (IIA)', period: 2, radius: 112, ie: 900, en: 1.57, config: '1s² 2s²', val: '+2', context: 'Menor radio que Li en el periodo 2 por mayor carga nuclear efectiva (Z_ef).' },
+      { sym: 'Mg', name: 'Magnesio', z: 12, group: '2 (IIA)', period: 3, radius: 160, ie: 738, en: 1.31, config: '[Ne] 3s²', val: '+2', context: 'Principal interferente junto al litio en las salmueras del Salar de Uyuni por su relación diagonal Li/Mg.' },
+      { sym: 'Ca', name: 'Calcio', z: 20, group: '2 (IIA)', period: 4, radius: 197, ie: 590, en: 1.00, config: '[Ar] 4s²', val: '+2', context: 'Forma óxido de calcio (cal viva, CaO) e hidróxido de calcio (Ca(OH)₂).' },
+      { sym: 'Sr', name: 'Estroncio', z: 38, group: '2 (IIA)', period: 5, radius: 215, ie: 550, en: 0.95, config: '[Kr] 5s²', val: '+2', context: 'Aumenta el radio al descender en el grupo 2; da coloración rojo carmín a la llama.' },
+      { sym: 'Ba', name: 'Bario', z: 56, group: '2 (IIA)', period: 6, radius: 222, ie: 503, en: 0.89, config: '[Xe] 6s²', val: '+2', context: 'Forma sulfato de bario (BaSO₄) insoluble usado en análisis gravimétrico.' },
+      { sym: 'Ra', name: 'Radio', z: 88, group: '2 (IIA)', period: 7, radius: 228, ie: 509, en: 0.90, config: '[Rn] 7s²', val: '+2', context: 'Elemento alcalinotérreo más pesado y radiactivo; presenta el mayor radio del grupo 2.' },
+      { sym: 'C', name: 'Carbono', z: 6, group: '14 (IVA)', period: 2, radius: 77, ie: 1086, en: 2.55, config: '1s² 2s² 2p²', val: '+2, +4, -4', context: 'Base de la química orgánica; forma CO₂ (anhídrido carbónico) al oxidarse completamente.' },
+      { sym: 'N', name: 'Nitrógeno', z: 7, group: '15 (VA)', period: 2, radius: 75, ie: 1402, en: 3.04, config: '1s² 2s² 2p³', val: '+1,+3,+5,-3', context: 'Subnivel 2p³ semilleno le otorga alta estabilidad y elevada energía de ionización.' },
+      { sym: 'O', name: 'Oxígeno', z: 8, group: '16 (VIA)', period: 2, radius: 73, ie: 1314, en: 3.44, config: '1s² 2s² 2p⁴', val: '-2', context: 'Segundo elemento más electronegativo; forma óxidos básicos con metales y anhídridos con no metales.' },
+      { sym: 'S', name: 'Azufre', z: 16, group: '16 (VIA)', period: 3, radius: 103, ie: 1000, en: 2.58, config: '[Ne] 3s² 3p⁴', val: '+2, +4, +6, -2', context: 'Abundante en zonas volcánicas de Bolivia (Oruro/Potosí); al arder produce SO₂ (anhídrido sulfuroso).' },
+      { sym: 'Cl', name: 'Cloro', z: 17, group: '17 (VIIA)', period: 3, radius: 99, ie: 1251, en: 3.16, config: '[Ne] 3s² 3p⁵', val: '+1,+3,+5,+7,-1', context: 'Halógeno con 4 valencias positivas que originan los anhídridos hipocloroso, cloroso, clórico y perclórico.' }
+    ];
+
+    const FORMULATION_BANK = [
+      // Básico
+      { diff: 'basico', prompt: 'Anhídrido sulfúrico (S con valencia +6)', answer: 'SO3', alt: ['so3'], explanation: 'El azufre actúa con +6 y el oxígeno con -2. Al intercambiar valencias resulta S₂O₆, que se simplifica dividiendo entre 2 a SO₃ (trióxido de azufre).' },
+      { diff: 'basico', prompt: 'Óxido férrico (Fe con valencia +3)', answer: 'Fe2O3', alt: ['fe2o3'], explanation: 'El hierro usa su mayor valencia (+3, terminación -ico) y el oxígeno -2. Intercambiando: Fe₂O₃ (trióxido de dihierro).' },
+      { diff: 'basico', prompt: 'Anhídrido carbónico (C con valencia +4)', answer: 'CO2', alt: ['co2'], explanation: 'Carbono (+4) + Oxígeno (-2) → C₂O₄, simplificado a CO₂ (dióxido de carbono).' },
+      { diff: 'basico', prompt: 'Óxido de litio (Li con valencia +1)', answer: 'Li2O', alt: ['li2o'], explanation: 'El litio (grupo 1) tiene valencia única +1 y el oxígeno -2 → Li₂O.' },
+      { diff: 'basico', prompt: 'Anhídrido hipocloroso (Cl con valencia +1)', answer: 'Cl2O', alt: ['cl2o'], explanation: 'El cloro con su menor valencia (+1) usa prefijo hipo- y sufijo -oso: Cl₂O (monóxido de dicloro).' },
+      { diff: 'basico', prompt: 'Óxido de calcio (Ca con valencia +2)', answer: 'CaO', alt: ['cao'], explanation: 'Calcio (+2) y Oxígeno (-2) → Ca₂O₂, simplificado a CaO.' },
+      // Intermedio
+      { diff: 'intermedio', prompt: 'Ácido sulfúrico (SO₃ + H₂O)', answer: 'H2SO4', alt: ['h2so4'], explanation: 'Al hidratar el anhídrido sulfúrico (SO₃) con una molécula de agua (H₂O) se obtiene H₂SO₄ (tetraoxosulfato(VI) de hidrógeno).' },
+      { diff: 'intermedio', prompt: 'Hidróxido de aluminio (Al con +3)', answer: 'Al(OH)3', alt: ['al(oh)3', 'aloh3'], explanation: 'El catión Al³⁺ requiere 3 grupos hidroxilo (OH⁻) para neutralidad eléctrica: Al(OH)₃.' },
+      { diff: 'intermedio', prompt: 'Ácido nítrico (N con valencia +5)', answer: 'HNO3', alt: ['hno3'], explanation: 'Anhídrido nítrico (N₂O₅) + H₂O → H₂N₂O₆, simplificado a HNO₃.' },
+      { diff: 'intermedio', prompt: 'Ácido clorhídrico en solución acuosa', answer: 'HCl', alt: ['hcl'], explanation: 'Hidrácido formado por hidrógeno (+1) y cloruro (-1): HCl.' },
+      { diff: 'intermedio', prompt: 'Hidróxido cúprico (Cu con +2)', answer: 'Cu(OH)2', alt: ['cu(oh)2', 'cuoh2'], explanation: 'Cobre con su mayor valencia (+2, -ico) combinado con dos aniones OH⁻: Cu(OH)₂.' },
+      { diff: 'intermedio', prompt: 'Ácido carbónico (CO₂ + H₂O)', answer: 'H2CO3', alt: ['h2co3'], explanation: 'La hidratación del dióxido de carbono produce el oxácido débil H₂CO₃.' },
+      // Avanzado
+      { diff: 'avanzado', prompt: 'Sulfato férrico (Fe³⁺ y SO₄²⁻)', answer: 'Fe2(SO4)3', alt: ['fe2(so4)3'], explanation: 'Intercambiando la carga +3 del Fe³⁺ y -2 del ion sulfato (SO₄²⁻) resulta Fe₂(SO₄)₃.' },
+      { diff: 'avanzado', prompt: 'Permanganato de potasio (Mn con +7)', answer: 'KMnO4', alt: ['kmno4'], explanation: 'El anión permanganato (MnO₄⁻, Mn en +7) se neutraliza con un catión K⁺: KMnO₄.' },
+      { diff: 'avanzado', prompt: 'Propanona (cetona de 3 carbonos)', answer: 'CH3COCH3', alt: ['ch3coch3', 'c3h6o'], explanation: 'La propanona posee el grupo carbonilo (C=O) en un carbono secundario: CH₃-CO-CH₃.' },
+      { diff: 'avanzado', prompt: 'Ácido etanoico (ácido acético)', answer: 'CH3COOH', alt: ['ch3cooh', 'c2h4o2'], explanation: 'Ácido carboxílico de 2 carbonos con grupo carboxilo (-COOH): CH₃COOH.' },
+      { diff: 'avanzado', prompt: 'Carbonato de calcio', answer: 'CaCO3', alt: ['caco3'], explanation: 'Catión Ca²⁺ + anión carbonato CO₃²⁻ → CaCO₃.' },
+      { diff: 'avanzado', prompt: 'Etanol (alcohol primario de 2 carbonos)', answer: 'CH3CH2OH', alt: ['ch3ch2oh', 'c2h5oh'], explanation: 'Posee el grupo hidroxilo (-OH) unido a una cadena de 2 carbonos (sin carbonilo C=O): CH₃CH₂OH.' }
+    ];
+
+    const QUIZ_BANK = [
+      {
+        id: 'q1', topic: 'periodica', topicLabel: 'Energía de Ionización',
+        q: '¿Por qué la primera energía de ionización del nitrógeno (Z=7, 1402 kJ/mol) es mayor que la del oxígeno (Z=8, 1314 kJ/mol), a pesar de estar a su izquierda en el periodo 2?',
+        options: [
+          'Porque el nitrógeno tiene menor carga nuclear efectiva.',
+          'Porque el nitrógeno posee un subnivel 2p³ exactamente semilleno con estabilidad adicional por intercambio.',
+          'Porque el oxígeno pertenece a los metales alcalinotérreos.',
+          'Porque el radio atómico del nitrógeno es menor que el del flúor.'
+        ],
+        correct: 1,
+        explanation: 'El N (1s² 2s² 2p³) tiene tres electrones desapareados con espines paralelos en orbitales 2p distintos (máxima multiplicidad de Hund). En el O (2p⁴), el cuarto electrón se aparea en un mismo orbital 2p, generando repulsión interelectrónica que facilita su extracción.'
+      },
+      {
+        id: 'q2', topic: 'periodica', topicLabel: 'Radio Atómico',
+        q: 'Selecciona el ordenamiento DECRECIENTE correcto (de mayor a menor) del radio atómico para los elementos alcalinotérreos:',
+        options: [
+          'Be > Mg > Ca > Sr > Ba > Ra',
+          'Ra > Ba > Sr > Ca > Mg > Be',
+          'Ca > Mg > Be > Ra > Ba > Sr',
+          'Ra > Sr > Ba > Ca > Be > Mg'
+        ],
+        correct: 1,
+        explanation: 'Al descender en el Grupo 2 (IIA) aumenta el número cuántico principal (n = 2 hasta n = 7), incorporando capas electrónicas más externas y mayor efecto pantalla. Por tanto: Ra (228 pm) > Ba (222 pm) > Sr (215 pm) > Ca (197 pm) > Mg (160 pm) > Be (112 pm).'
+      },
+      {
+        id: 'q3', topic: 'periodica', topicLabel: 'Radio Atómico e Iónico',
+        q: 'En el Salar de Uyuni se separan iones Li⁺ y Mg²⁺. Al comparar un átomo neutro de Litio (Li) con su catión (Li⁺), ¿qué ocurre con el radio?',
+        options: [
+          'El radio del Li⁺ es mayor porque gana un protón.',
+          'El radio del Li⁺ disminuye drásticamente porque pierde su único electrón de valencia (2s¹) y aumenta la atracción nuclear sobre el nivel 1s².',
+          'Ambos tienen exactamente el mismo radio.',
+          'El Li⁺ aumenta su radio por repulsión electrónica.'
+        ],
+        correct: 1,
+        explanation: 'Todo catión es significativamente más pequeño que su átomo neutro progenitor: al perder el electrón 2s¹, desaparece la capa n=2 y los 3 protones atraen con fuerza a los 2 electrones restantes (152 pm → 76 pm).'
+      },
+      {
+        id: 'q4', topic: 'anhidridos', topicLabel: 'Síntesis de Anhídridos',
+        q: 'En el laboratorio de QCB 111 se quema azufre elemental en una cucharilla de combustión dentro de un matraz con O₂ y luego se añade agua con papel tornasol azul. ¿Qué secuencia ocurre?',
+        options: [
+          'Se forma Fe₂O₃ y el tornasol se vuelve verde.',
+          'Se forma SO₂ (anhídrido sulfuroso), que al hidratarse da H₂SO₃ y vira el tornasol azul a rojo por su carácter ácido.',
+          'Se forma NaOH y el papel tornasol permanece azul.',
+          'Se obtiene directamente sulfato de sodio sin reacción ácido-base.'
+        ],
+        correct: 1,
+        explanation: 'Macroscópicamente se observa llama azul y gas picante; simbólicamente: S + O₂ → SO₂ (anhídrido sulfuroso). Luego SO₂ + H₂O ⇌ H₂SO₃ (ácido sulfuroso), liberando iones H₃O⁺ que viran el indicador a rojo.'
+      },
+      {
+        id: 'q5', topic: 'anhidridos', topicLabel: 'Formación de Anhídridos',
+        q: '¿Cuál es la fórmula y el nombre tradicional del anhídrido que forma el cloro cuando actúa con su estado de oxidación +7?',
+        options: [
+          'Cl₂O — Anhídrido hipocloroso',
+          'Cl₂O₃ — Anhídrido cloroso',
+          'Cl₂O₅ — Anhídrido clórico',
+          'Cl₂O₇ — Anhídrido perclórico'
+        ],
+        correct: 3,
+        explanation: 'El cloro tiene 4 valencias positivas (+1, +3, +5, +7). Para la máxima (+7) corresponde el prefijo per- y sufijo -ico: Cl(+7) + O(-2) → Cl₂O₇ (heptóxido de dicloro / anhídrido perclórico).'
+      },
+      {
+        id: 'q6', topic: 'anhidridos', topicLabel: 'Óxidos Básicos vs. Ácidos',
+        q: '¿Cuál de los siguientes óxidos es un ANHÍDRIDO (óxido ácido) y no un óxido básico?',
+        options: [
+          'MgO (óxido de magnesio)',
+          'K₂O (óxido de potasio)',
+          'CO₂ (dióxido de carbono)',
+          'CaO (óxido de calcio)'
+        ],
+        correct: 2,
+        explanation: 'Los anhídridos resultan de combinar un NO METAL con oxígeno (como C + O₂ → CO₂) y generan oxácidos al reaccionar con agua. MgO, K₂O y CaO son óxidos metálicos (básicos).'
+      },
+      {
+        id: 'q7', topic: 'carbonilo', topicLabel: 'Grupos Funcionales (C=O)',
+        q: '¿Cuál de los siguientes grupos funcionales NO contiene un grupo carbonilo (C=O) en su estructura?',
+        options: [
+          'Cetona (R–CO–R’)',
+          'Aldehído (R–CHO)',
+          'Alcohol (R–OH)',
+          'Ácido carboxílico (R–COOH)'
+        ],
+        correct: 2,
+        explanation: 'El alcohol posee un grupo hidroxilo (-OH) unido mediante enlace simple a un carbono sp³; carece de doble enlace carbono-oxígeno (C=O). Aldehídos, cetonas, ácidos carboxílicos, ésteres y amidas sí contienen carbonilo.'
+      },
+      {
+        id: 'q8', topic: 'carbonilo', topicLabel: 'Diferenciación de Carbonilos',
+        q: '¿Cuál es la diferencia estructural clave entre un aldehído y una cetona?',
+        options: [
+          'El aldehído tiene el grupo carbonilo (C=O) en un carbono terminal unido al menos a un hidrógeno (-CHO), mientras la cetona lo tiene en un carbono secundario entre dos radicales carbonados.',
+          'La cetona no tiene oxígeno y el aldehído sí.',
+          'El aldehído es un compuesto inorgánico y la cetona es una sal.',
+          'La cetona siempre tiene un grupo -OH unido al carbonilo.'
+        ],
+        correct: 0,
+        explanation: 'Ambos poseen el grupo carbonilo (C=O), pero su posición determina su reactividad: terminal (-CHO) en aldehídos (fácilmente oxidables a ácidos) e interno (R-CO-R’) en cetonas.'
+      },
+      {
+        id: 'q9', topic: 'carbonilo', topicLabel: 'Grupos sin Carbonilo',
+        q: 'Identifica la pareja de funciones orgánicas que carecen por completo de grupo carbonilo (C=O):',
+        options: [
+          'Éster y Amida',
+          'Éter (R–O–R’) y Amina (R–NH₂)',
+          'Aldehído y Ácido carboxílico',
+          'Cetona y Éster'
+        ],
+        correct: 1,
+        explanation: 'Tanto los éteres (enlace simple C–O–C) como las aminas (enlace simple C–N) carecen del doble enlace C=O característico del grupo carbonilo.'
+      },
+      {
+        id: 'q10', topic: 'nomenclatura', topicLabel: 'Nomenclatura IUPAC / Stock',
+        q: '¿Cómo se nombra correctamente el compuesto Fe₂(SO₄)₃ según la nomenclatura tradicional y de Stock?',
+        options: [
+          'Sulfito ferroso / Sulfato de hierro(II)',
+          'Sulfato férrico / Tetraoxosulfato(VI) de hierro(III)',
+          'Sulfuro férrico / Sulfuro de dihierro',
+          'Persulfato ferroso / Óxido de hierro(III)'
+        ],
+        correct: 1,
+        explanation: 'El anión SO₄²⁻ es el ion sulfato (S en +6). Como hay 3 sulfatos (carga total -6) neutralizados por 2 hierros, cada Fe actúa con +3 (terminación -ico: férrico / hierro(III)).'
+      },
+      {
+        id: 'q11', topic: 'nomenclatura', topicLabel: 'Nomenclatura Orgánica IUPAC',
+        q: '¿Cuál es el nombre IUPAC correcto para la estructura CH₃–CH₂–CO–CH₃?',
+        options: [
+          'Butanal',
+          'Butanona (o butan-2-ona)',
+          'Ácido butanoico',
+          'Butan-2-ol'
+        ],
+        correct: 1,
+        explanation: 'Cadena de 4 carbonos (but-) con un grupo carbonilo (C=O) interno en posición 2 y enlaces simples (-an-): butanona (sufijo -ona).'
+      },
+      {
+        id: 'q12', topic: 'nomenclatura', topicLabel: 'Oxácidos',
+        q: 'Al determinar el estado de oxidación del fósforo en el ácido ortofosfórico (H₃PO₄), ¿qué valor se obtiene y qué sufijo tradicional aplica?',
+        options: [
+          '+3 (ácido fosforoso)',
+          '+5 (ácido fosfórico)',
+          '+1 (ácido hipofosforoso)',
+          '-3 (fosfina)'
+        ],
+        correct: 1,
+        explanation: 'En H₃PO₄: 3(+1) + x + 4(-2) = 0 → 3 + x - 8 = 0 → x = +5. Al ser la valencia mayor del fósforo (+5), lleva el sufijo -ico: ácido fosfórico.'
+      },
+      {
+        id: 'q13', topic: 'periodica', topicLabel: 'Tendencias Periódicas',
+        q: 'Al avanzar de izquierda a derecha a lo largo del Periodo 3 (de Na a Cl), ¿cómo varían el radio atómico y la electronegatividad?',
+        options: [
+          'El radio atómico disminuye y la electronegatividad aumenta.',
+          'Ambos aumentan progresivamente.',
+          'El radio atómico aumenta y la electronegatividad disminuye.',
+          'Ambos permanecen constantes.'
+        ],
+        correct: 0,
+        explanation: 'Al mantener el mismo nivel principal (n=3) y aumentar el número de protones en el núcleo, la carga nuclear efectiva atrae más fuertemente a los electrones de valencia, contrayendo el radio y elevando la electronegatividad.'
+      },
+      {
+        id: 'q14', topic: 'nomenclatura', topicLabel: 'Hidróxidos y Sales',
+        q: '¿Cuál es la fórmula correcta del hidróxido plúmbico (plomo con valencia +4)?',
+        options: [
+          'Pb(OH)₂',
+          'Pb(OH)₄',
+          'PbO₂',
+          'H₄PbO₄'
+        ],
+        correct: 1,
+        explanation: 'El plomo tiene valencias +2 (plumboso) y +4 (plúmbico). Con +4 requiere cuatro aniones hidroxilo (OH⁻) para lograr neutralidad eléctrica: Pb(OH)₄.'
+      },
+      {
+        id: 'q15', topic: 'carbonilo', topicLabel: 'Ácidos Carboxílicos',
+        q: 'El grupo carboxilo (-COOH) presente en el ácido acético (CH₃COOH) resulta de la combinación en un mismo carbono terminal de:',
+        options: [
+          'Un grupo carbonilo (C=O) y un grupo hidroxilo (-OH).',
+          'Dos grupos amino (-NH₂).',
+          'Un enlace triple carbono-carbono y un halógeno.',
+          'Un grupo éter y un anillo bencénico.'
+        ],
+        correct: 0,
+        explanation: 'El grupo carboxilo (-C(=O)OH) integra en el mismo átomo de carbono un grupo carbonilo (C=O) y un grupo hidroxilo (-OH), confiriéndole acidez de Brønsted-Lowry.'
+      }
+    ];
+
+    const CLASSROOM_UNITS = [
+      {
+        id: 'u1',
+        title: 'Unidad 1: Estructura Atómica y Tabla Periódica',
+        desc: 'Configuración electrónica, carga nuclear efectiva, radio atómico y energía de ionización (Contexto: Salar de Uyuni).',
+        resourceKey: 'mendelev',
+        tasks: [
+          { id: 't1', title: 'Explorar ubicaciones y tendencias en Juego «Mendelev»', xp: 30 },
+          { id: 't2', title: 'Comparar Li vs. Mg y Be → Ra en el Simulador A', xp: 30 }
+        ]
+      },
+      {
+        id: 'u2',
+        title: 'Unidad 2: Enlace Químico, Regla del Octeto y Valencias',
+        desc: 'Transferencia de electrones, enlace iónico/covalente y neutralidad de cargas.',
+        resourceKey: 'octeto',
+        tasks: [
+          { id: 't3', title: 'Descargar e imprimir baraja «Octeto» para sesión grupal', xp: 35 }
+        ]
+      },
+      {
+        id: 'u3',
+        title: 'Unidad 3: Nomenclatura Inorgánica (IUPAC, Stock y Tradicional)',
+        desc: 'Formación y síntesis experimental de óxidos, anhídridos, hidróxidos, ácidos y sales.',
+        resourceKey: 'biblioteca',
+        tasks: [
+          { id: 't4', title: 'Ejecutar síntesis de anhídrido sulfuroso en el Simulador B', xp: 35 },
+          { id: 't5', title: 'Completar 10 aciertos en el Mini-Juego de Formulación Rápida', xp: 40 }
+        ]
+      },
+      {
+        id: 'u4',
+        title: 'Unidad 4: Introducción a Grupos Funcionales Orgánicos',
+        desc: 'Diferenciación estructural entre funciones con grupo carbonilo (C=O) y sin grupo carbonilo.',
+        resourceKey: 'tutoriales',
+        tasks: [
+          { id: 't6', title: 'Revisar tutoriales audiovisuales y aprobar bloque de carbonilos en Examen Diagnóstico', xp: 40 }
+        ]
+      }
+    ];
+
+    const BADGES_DEF = [
+      { id: 'b_pionero', name: 'Pionero DTLE', desc: 'Iniciaste tu recorrido activo en el ecosistema QCB 111.', reqXp: 0 },
+      { id: 'b_valencias', name: 'Cazador de Valencias', desc: 'Alcanzaste 200 XP dominando estados de oxidación.', reqXp: 200 },
+      { id: 'b_salar', name: 'Químico del Salar', desc: 'Alcanzaste 350 XP analizando propiedades periódicas (Li/Mg).', reqXp: 350 },
+      { id: 'b_anhidridos', name: 'Sintetizador de Anhídridos', desc: 'Alcanzaste 500 XP articulando los 3 niveles de Johnstone.', reqXp: 500 },
+      { id: 'b_octeto', name: 'Maestro del Octeto', desc: 'Alcanzaste 700 XP en formulación y aprendizaje simbiótico.', reqXp: 700 },
+      { id: 'b_iupac', name: 'Estratega IUPAC UMSA', desc: 'Alcanzaste 1000 XP: dominio integral del lenguaje químico.', reqXp: 1000 }
+    ];
+
+    const REFERENCE_VALENCES = [
+      { elem: 'Litio / Sodio / Potasio', sym: 'Li, Na, K', val: '+1', term: 'de ... / -ico' },
+      { elem: 'Magnesio / Calcio / Bario', sym: 'Mg, Ca, Ba', val: '+2', term: 'de ... / -ico' },
+      { elem: 'Hierro / Cobalto / Níquel', sym: 'Fe, Co, Ni', val: '+2 / +3', term: '-oso / -ico' },
+      { elem: 'Cobre / Mercurio', sym: 'Cu, Hg', val: '+1 / +2', term: '-oso / -ico' },
+      { elem: 'Carbono', sym: 'C', val: '+2 / +4', term: '-oso / -ico' },
+      { elem: 'Azufre / Selenio', sym: 'S, Se', val: '+2 / +4 / +6', term: 'hipo-oso / -oso / -ico' },
+      { elem: 'Cloro / Bromo / Yodo', sym: 'Cl, Br, I', val: '+1 / +3 / +5 / +7', term: 'hipo-oso / -oso / -ico / per-ico' },
+      { elem: 'Ion Hidroxilo', sym: 'OH⁻', val: '-1', term: 'Hidróxido de ...' },
+      { elem: 'Ion Sulfato / Sulfito', sym: 'SO₄²⁻ / SO₃²⁻', val: '-2', term: '-ato / -ito' },
+      { elem: 'Ion Nitrato / Carbonato', sym: 'NO₃⁻ / CO₃²⁻', val: '-1 / -2', term: 'Nitrato / Carbonato' }
+    ];
+
+    const REFERENCE_FUNCTIONAL = [
+      { func: 'Alcohol', group: 'R–OH (Hidroxilo)', carbonyl: 'No', suffix: '-ol' },
+      { func: 'Éter', group: 'R–O–R’ (Alcoxi)', carbonyl: 'No', suffix: '-oxi- / éter' },
+      { func: 'Amina', group: 'R–NH₂ (Amino)', carbonyl: 'No', suffix: '-amina' },
+      { func: 'Aldehído', group: 'R–CHO (Formilo)', carbonyl: 'Sí (terminal)', suffix: '-al' },
+      { func: 'Cetona', group: 'R–CO–R’ (Carbonilo)', carbonyl: 'Sí (interno)', suffix: '-ona' },
+      { func: 'Ácido Carboxílico', group: 'R–COOH (Carboxilo)', carbonyl: 'Sí (+ -OH)', suffix: 'Ácido ...-oico' },
+      { func: 'Éster', group: 'R–COO–R’ (Alcoxicarbonilo)', carbonyl: 'Sí (+ -OR’)', suffix: '-ato de -ilo' },
+      { func: 'Amida', group: 'R–CONH₂ (Carboxamida)', carbonyl: 'Sí (+ -NH₂)', suffix: '-amida' }
+    ];
+
+    /* =====================================================================
+       2. STATE MANAGEMENT (LOCALSTORAGE)
+    ====================================================================== */
+    function getDefaultState() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      return {
+        userName: 'Estudiante UMSA',
+        userRole: 'Estudiante QCB 111',
+        xp: 120,
+        streak: 3,
+        theme: 'light',
+        completedTasks: ['t1'],
+        taskLinks: {},
+        quizAnswered: {},
+        events: [
+          { id: 'e1', date: `${y}-${m}-05`, title: 'Lab 1: Propiedades Periódicas (Salar de Uyuni)', type: 'Laboratorio' },
+          { id: 'e2', date: `${y}-${m}-12`, title: 'Reto Semanal: Nomenclatura de Anhídridos', type: 'Reto' },
+          { id: 'e3', date: `${y}-${m}-19`, title: 'Lab 2: Combustión de Azufre y Carácter Ácido', type: 'Laboratorio' },
+          { id: 'e4', date: `${y}-${m}-26`, title: '1er Examen Parcial — QCB 111', type: 'Evaluación' }
+        ],
+        forumThreads: [
+          {
+            id: 'f1',
+            tag: '#NomenclaturaIUPAC',
+            author: 'Camila Mamani (QCB 111)',
+            title: '¿Por qué el SO₃ se llama anhídrido sulfúrico y no sulfuroso?',
+            body: 'Estaba repasando con el simulador y vi que el azufre tiene valencias +2, +4 y +6. Como usa la mayor (+6), ¿siempre aplica el sufijo -ico en nomenclatura tradicional?',
+            votes: 7,
+            replies: [
+              { author: 'Univ. Carlos Quispe (Auxiliar)', text: '¡Exacto, Camila! Para sus tres valencias positivas (+2, +4, +6) el azufre usa hipo-...-oso (+2), -oso (+4) e -ico (+6). En IUPAC sistemática es trióxido de azufre.' }
+            ]
+          },
+          {
+            id: 'f2',
+            tag: '#GrupoDeEstudio',
+            author: 'Diego Condori',
+            title: 'Sesión con cartas «Octeto» en Biblioteca de Ciencias Puras (Cota Cota)',
+            body: 'Imprimimos 2 juegos de cartas Octeto del repositorio Drive. Nos reunimos el jueves a las 14:30 para practicar formación de oxácidos y sales neutras. ¡Todos bienvenidos!',
+            votes: 11,
+            replies: []
+          }
+        ]
+      };
+    }
+
+    let state = loadState();
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return getDefaultState();
+        return { ...getDefaultState(), ...JSON.parse(raw) };
+      } catch (e) {
+        return getDefaultState();
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      updateHeaderAndDashboard();
+    }
+
+    function addXP(amount, reason) {
+      state.xp += amount;
+      saveState();
+      showToast(`+${amount} XP • ${reason}`);
+    }
+
+    function getLevelInfo(xp) {
+      if (xp >= 700) return { label: 'Maestro IUPAC', next: 1000, pct: Math.min(100, ((xp - 700) / 300) * 100) };
+      if (xp >= 300) return { label: 'Analista Cuántico', next: 700, pct: ((xp - 300) / 400) * 100 };
+      return { label: 'Aprendiz Alquimista', next: 300, pct: (xp / 300) * 100 };
+    }
+
+    function showToast(msg) {
+      const el = document.getElementById('toastEl');
+      el.textContent = msg;
+      el.classList.add('show');
+      clearTimeout(window._toastTimer);
+      window._toastTimer = setTimeout(() => el.classList.remove('show'), 2800);
+    }
+
+    /* =====================================================================
+       3. NAVIGATION, THEME & PROFILE
+    ====================================================================== */
+    const VIEW_META = {
+      dashboard: ['Panel del Ecosistema Digital (DTLE)', 'Articulación de los niveles Macroscópico, Submicroscópico y Simbólico'],
+      juegos: ['Juegos Educativos Interactivos (Centro Lúdico MDA)', 'Mecánicas químicas reales, dinámica de flujo y formulación instantánea'],
+      laboratorios: ['Laboratorios Virtuales (Triángulo de Johnstone)', 'Simulación cuantitativa de propiedades periódicas y síntesis de anhídridos'],
+      examenes: ['Exámenes Simulacro con Retroalimentación Diagnóstica', 'Evaluación formativa enfocada en brechas conceptuales de QCB 111'],
+      tutor: ['Tutor Virtual IA Especializado en Química', 'Andamiaje socrático paso a paso bajo aprendizaje significativo'],
+      aula: ['Aula Virtual — Gestión de Módulos y Tareas QCB 111', 'Secuencia didáctica por unidades temáticas y registro de entregables'],
+      calendario: ['Calendario Virtual Académico', 'Cronograma de prácticas de laboratorio, retos y evaluaciones'],
+      foro: ['Foro de Debates y Consultas (Simbiosis Biótica)', 'Mutualismo entre pares y comensalismo en grupos de estudio UMSA'],
+      retos: ['Retos Semanales, Ranking e Insignias', 'Desafío cronometrado de 60 segundos y tabla de posiciones'],
+      repositorios: ['Repositorios Integrados y Tablas de Consulta', 'Portal audiovisual, biblioteca PDF y guía rápida de valencias y grupos']
+    };
+
+    function switchView(viewId) {
+      document.querySelectorAll('.view-section').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) target.classList.add('active');
+
+      document.querySelectorAll('.nav-btn').forEach(b => {
+        b.classList.toggle('active', b.dataset.view === viewId);
+      });
+
+      const meta = VIEW_META[viewId] || VIEW_META.dashboard;
+      document.getElementById('currentViewTitle').textContent = meta[0];
+      document.getElementById('currentViewSub').textContent = meta[1];
+
+      document.getElementById('sidebar').classList.remove('open');
+      if (viewId === 'laboratorios') {
+        renderSimulatorA();
+        drawSimulatorBCanvases();
+      }
+    }
+
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('click', () => switchView(btn.dataset.view));
+    });
+
+    document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    document.getElementById('themeToggleBtn').addEventListener('click', () => {
+      state.theme = state.theme === 'light' ? 'dark' : 'light';
+      document.documentElement.setAttribute('data-theme', state.theme);
+      saveState();
+    });
+
+    document.getElementById('editProfileBtn').addEventListener('click', () => {
+      document.getElementById('profileNameInput').value = state.userName;
+      document.getElementById('profileRoleInput').value = state.userRole;
+      document.getElementById('profileModal').classList.add('open');
+    });
+
+    function saveUserProfile(e) {
+      e.preventDefault();
+      state.userName = document.getElementById('profileNameInput').value.trim() || 'Estudiante UMSA';
+      state.userRole = document.getElementById('profileRoleInput').value;
+      saveState();
+      renderLeaderboard();
+      closeModal('profileModal');
+      showToast('Perfil académico actualizado');
+    }
+
+    document.getElementById('resetDemoBtn').addEventListener('click', () => {
+      if (confirm('¿Deseas reiniciar todos los puntos XP, tareas completadas, eventos y publicaciones al estado inicial de demostración?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        state = getDefaultState();
+        document.documentElement.setAttribute('data-theme', state.theme);
+        initAllViews();
+        showToast('Progreso de demostración reiniciado');
+      }
+    });
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      if (id === 'resourceModal') {
+        document.getElementById('modalResIframe').src = 'about:blank';
+      }
+    }
+
+    function openResourceModal(resKey) {
+      const res = RESOURCES[resKey];
+      if (!res) return;
+      document.getElementById('modalResTitle').textContent = res.title;
+      document.getElementById('modalResDesc').textContent = res.desc;
+      document.getElementById('modalResExternalLink').href = res.url;
+      document.getElementById('modalResIframe').src = res.url;
+      document.getElementById('resourceModal').classList.add('open');
+    }
+
+    /* =====================================================================
+       4. DASHBOARD & JOHNSTONE TRIANGLE
+    ====================================================================== */
+    function selectJohnstone(level) {
+      const box = document.getElementById('johnstoneDetail');
+      if (level === 'macro') {
+        box.innerHTML = `
+          <span class="badge badge-cyan" style="margin-bottom:6px;">Nivel Macroscópico (Laboratorio)</span>
+          <h4 style="font-size:0.95rem;margin-bottom:6px;">Combustión del Azufre en Cucharilla</h4>
+          <p style="font-size:0.84rem;color:var(--text-muted);">Al calentar azufre sólido amarillo en presencia de oxígeno se observa una <strong>llama azul pálido</strong> y el desprendimiento de un gas picante e incoloro que al burbujear en agua vira el tornasol azul a rojo (carácter ácido).</p>
+        `;
+      } else if (level === 'submicro') {
+        box.innerHTML = `
+          <span class="badge badge-emerald" style="margin-bottom:6px;">Nivel Submicroscópico (Partículas)</span>
+          <h4 style="font-size:0.95rem;margin-bottom:6px;">Reorganización Electrónica y Geometría Angular</h4>
+          <p style="font-size:0.84rem;color:var(--text-muted);">Los anillos moleculares S₈ se rompen por energía térmica; cada átomo de azufre comparte pares de electrones covalentes con dos átomos de oxígeno formando moléculas angulares de <strong>SO₂</strong> (119°) con un par solitario en el azufre.</p>
+        `;
+      } else {
+        box.innerHTML = `
+          <span class="badge badge-amber" style="margin-bottom:6px;">Nivel Simbólico (Ecuación e IUPAC)</span>
+          <h4 style="font-size:0.95rem;margin-bottom:6px;">Representación Química Balanceada</h4>
+          <p class="mono" style="font-size:0.86rem;background:var(--bg-surface);padding:8px;border-radius:6px;margin-bottom:6px;">S(s) + O₂(g) → SO₂(g)<br>SO₂(g) + H₂O(l) ⇌ H₂SO₃(ac)</p>
+          <p style="font-size:0.82rem;color:var(--text-muted);">Nomenclatura: <strong>Dióxido de azufre</strong> (IUPAC) / <strong>Anhídrido sulfuroso</strong> (Tradicional, S en +4).</p>
+        `;
+      }
+    }
+
+    function renderDashboardResources() {
+      const grid = document.getElementById('dashboardResourcesGrid');
+      const keys = ['mendelev', 'gusanito', 'octeto', 'tutoriales'];
+      grid.innerHTML = keys.map(k => {
+        const r = RESOURCES[k];
+        return `
+          <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:10px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;gap:10px;">
+            <div>
+              <span class="badge ${r.badgeClass}" style="margin-bottom:6px;">${r.module}</span>
+              <h4 style="font-size:0.92rem;margin-bottom:5px;">${r.title}</h4>
+              <p style="font-size:0.8rem;color:var(--text-muted);">${r.desc}</p>
+            </div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="openResourceModal('${r.id}')">Vista Previa</button>
+              <a class="btn btn-primary btn-sm" href="${r.url}" target="_blank" rel="noopener noreferrer">Abrir ↗</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateHeaderAndDashboard() {
+      const lvl = getLevelInfo(state.xp);
+      document.getElementById('topLevelBadge').textContent = lvl.label;
+      document.getElementById('topXpValue').textContent = `${state.xp} XP`;
+      document.getElementById('topXpBar').style.width = `${lvl.pct}%`;
+      document.getElementById('topUserName').textContent = state.userName;
+      document.getElementById('topAvatar').textContent = state.userName.slice(0, 2).toUpperCase();
+
+      document.getElementById('dashXp').textContent = `${state.xp} XP`;
+      document.getElementById('dashLevel').textContent = lvl.label;
+      document.getElementById('dashStreak').textContent = `${state.streak} días`;
+      document.getElementById('dashTasks').textContent = `${state.completedTasks.length} / 6`;
+
+      const unlocked = BADGES_DEF.filter(b => state.xp >= b.reqXp).length;
+      document.getElementById('dashBadges').textContent = `${unlocked} / ${BADGES_DEF.length}`;
+      renderBadges();
+      renderLeaderboard();
+    }
+
+    /* =====================================================================
+       5. GAMES CENTER (MDA) & INTEGRATED FORMULATION MINI-GAME
+    ====================================================================== */
+    function renderGamesCards() {
+      const container = document.getElementById('gamesCardsContainer');
+      const gameKeys = ['mendelev', 'gusanito', 'octeto'];
+      container.innerHTML = gameKeys.map(k => {
+        const g = RESOURCES[k];
+        return `
+          <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:12px;padding:16px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span class="badge ${g.badgeClass}">${g.module}</span>
+                <span class="badge badge-purple">${g.diff}</span>
+              </div>
+              <h4 style="font-size:1rem;margin-bottom:6px;">${g.title}</h4>
+              <p style="font-size:0.83rem;color:var(--text-muted);margin-bottom:8px;">${g.desc}</p>
+              <div style="font-size:0.77rem;background:var(--bg-surface);padding:8px;border-radius:6px;border:1px solid var(--border-color);">
+                <strong>Diseño MDA:</strong> ${g.mda}
+              </div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button class="btn btn-outline btn-sm" onclick="openResourceModal('${g.id}')">Vista Previa Modal</button>
+              <a class="btn btn-primary btn-sm" href="${g.url}" target="_blank" rel="noopener noreferrer">Jugar / Descargar ↗</a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    let miniGameStreak = 0;
+    let currentMiniItem = null;
+
+    function initMiniGameRound() {
+      const diff = document.getElementById('miniGameDiff').value;
+      const pool = FORMULATION_BANK.filter(i => i.diff === diff);
+      currentMiniItem = pool[Math.floor(Math.random() * pool.length)];
+
+      const area = document.getElementById('miniGameArea');
+      area.innerHTML = `
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px;">
+          <div>
+            <span class="badge badge-cyan" style="margin-bottom:4px;">Escribe la fórmula química correcta</span>
+            <h4 style="font-size:1.08rem;">${currentMiniItem.prompt}</h4>
+          </div>
+          <span style="font-size:0.78rem;color:var(--text-soft);">Puedes escribir subíndices con números normales (ej. H2SO4)</span>
+        </div>
+        <form onsubmit="checkMiniGameAnswer(event)" style="display:flex;gap:10px;max-width:520px;">
+          <input type="text" id="miniGameInput" class="mono" placeholder="Fórmula química..." autocomplete="off" required />
+          <button type="submit" class="btn btn-emerald">Verificar</button>
+          <button type="button" class="btn btn-outline" onclick="initMiniGameRound()">Siguiente</button>
+        </form>
+        <div id="miniGameFeedback" style="margin-top:12px;"></div>
+      `;
+    }
+
+    function normalizeFormula(str) {
+      return str.replace(/\s+/g, '').replace(/[₀₁₂₃₄₅₆₇₈₉]/g, m => '0123456789'['₀₁₂₃₄₅₆₇₈₉'.indexOf(m)]).toLowerCase();
+    }
+
+    function checkMiniGameAnswer(e) {
+      e.preventDefault();
+      if (!currentMiniItem) return;
+      const userVal = normalizeFormula(document.getElementById('miniGameInput').value);
+      const validSet = [normalizeFormula(currentMiniItem.answer), ...currentMiniItem.alt.map(normalizeFormula)];
+      const fb = document.getElementById('miniGameFeedback');
+
+      if (validSet.includes(userVal)) {
+        miniGameStreak++;
+        document.getElementById('miniGameScore').textContent = `Racha: ${miniGameStreak}`;
+        fb.innerHTML = `
+          <div style="padding:12px;border-radius:8px;background:var(--emerald-light);border-left:4px solid var(--emerald-ok);font-size:0.85rem;">
+            <strong>¡Correcto! Fórmula: <span class="mono">${currentMiniItem.answer}</span></strong><br>
+            ${currentMiniItem.explanation}
+          </div>
+        `;
+        addXP(20, 'Formulación química correcta');
+      } else {
+        miniGameStreak = 0;
+        document.getElementById('miniGameScore').textContent = `Racha: 0`;
+        fb.innerHTML = `
+          <div style="padding:12px;border-radius:8px;background:var(--rose-light);border-left:4px solid var(--rose-err);font-size:0.85rem;">
+            <strong>Revisa el balance de cargas.</strong> La fórmula correcta es <span class="mono"><strong>${currentMiniItem.answer}</strong></span>.<br>
+            ${currentMiniItem.explanation}
+          </div>
+        `;
+      }
+    }
+
+    /* =====================================================================
+       6. VIRTUAL LABORATORIES (SIMULATOR A & SIMULATOR B)
+    ====================================================================== */
+    function initSimulatorASelects() {
+      const selA = document.getElementById('simElemA');
+      const selB = document.getElementById('simElemB');
+      const opts = ELEMENTS_DATA.map(el => `<option value="${el.sym}">${el.sym} — ${el.name} (Z=${el.z})</option>`).join('');
+      selA.innerHTML = opts;
+      selB.innerHTML = opts;
+      selA.value = 'Li';
+      selB.value = 'Mg';
+      renderSimulatorA();
+    }
+
+    function renderSimulatorA() {
+      const symA = document.getElementById('simElemA').value;
+      const symB = document.getElementById('simElemB').value;
+      const a = ELEMENTS_DATA.find(e => e.sym === symA) || ELEMENTS_DATA[0];
+      const b = ELEMENTS_DATA.find(e => e.sym === symB) || ELEMENTS_DATA[4];
+
+      const maxR = 240;
+      const rPxA = Math.round((a.radius / maxR) * 64);
+      const rPxB = Math.round((b.radius / maxR) * 64);
+
+      document.getElementById('simAComparisonVisual').innerHTML = `
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:center;align-items:center;">
+          <div>
+            <div style="height:140px;display:grid;place-items:center;">
+              <div style="width:${rPxA*2}px;height:${rPxA*2}px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #38BDF8, #0284C7);display:grid;place-items:center;font-weight:800;font-size:1.1rem;box-shadow:0 0 22px rgba(56,189,248,0.45);">
+                ${a.sym}
+              </div>
+            </div>
+            <div style="font-weight:700;font-size:0.95rem;">${a.name} (Grupo ${a.group}, P${a.period})</div>
+            <div class="mono" style="font-size:0.78rem;color:#93C5FD;">Radio: ${a.radius} pm | EI₁: ${a.ie} kJ/mol</div>
+            <div class="mono" style="font-size:0.75rem;color:#CBD5E1;">Config: ${a.config} | Val: ${a.val}</div>
+          </div>
+
+          <div>
+            <div style="height:140px;display:grid;place-items:center;">
+              <div style="width:${rPxB*2}px;height:${rPxB*2}px;border-radius:50%;background:radial-gradient(circle at 30% 30%, #34D399, #059669);display:grid;place-items:center;font-weight:800;font-size:1.1rem;box-shadow:0 0 22px rgba(52,211,153,0.45);">
+                ${b.sym}
+              </div>
+            </div>
+            <div style="font-weight:700;font-size:0.95rem;">${b.name} (Grupo ${b.group}, P${b.period})</div>
+            <div class="mono" style="font-size:0.78rem;color:#6EE7B7;">Radio: ${b.radius} pm | EI₁: ${b.ie} kJ/mol</div>
+            <div class="mono" style="font-size:0.75rem;color:#CBD5E1;">Config: ${b.config} | Val: ${b.val}</div>
+          </div>
+        </div>
+      `;
+
+      const bigger = a.radius > b.radius ? a.name : (b.radius > a.radius ? b.name : 'Ambos tienen igual radio');
+      const higherIe = a.ie > b.ie ? a.name : (b.ie > a.ie ? b.name : 'Ambos tienen igual energía de ionización');
+
+      document.getElementById('simAAnalysis').innerHTML = `
+        <strong>Deducción Periódica Comparativa:</strong><br>
+        • <strong>Radio atómico:</strong> <span style="color:var(--cyan-accent);font-weight:700;">${bigger}</span> posee mayor volumen atómico (${a.radius} pm vs. ${b.radius} pm) debido al número de capas electrónicas ocupadas y su carga nuclear efectiva.<br>
+        • <strong>Energía de ionización (EI₁):</strong> <span style="color:var(--emerald-ok);font-weight:700;">${higherIe}</span> requiere mayor energía para arrancar su electrón más externo (${a.ie} vs. ${b.ie} kJ/mol).<br>
+        • <strong>Aplicación Contextual:</strong> ${a.context}
+      `;
+    }
+
+    /* Simulator B: Experimental Synthesis of Anhydrides */
+    const SIM_B_DATA = {
+      S: {
+        name: 'Azufre (S)',
+        flameColor: '#38BDF8',
+        gasColor: 'rgba(226, 232, 240, 0.35)',
+        eqCombustion: 'S(s) + O₂(g)  —Δ→  SO₂(g)',
+        eqHydration: 'SO₂(g) + H₂O(l)  ⇌  H₂SO₃(ac)',
+        iupac: 'Dióxido de azufre → Ácido trioxosulfúrico(IV)',
+        trad: 'Anhídrido sulfuroso → Ácido sulfuroso',
+        macroDesc: 'Llama azul pálido característica y gas sofocante incoloro. Al añadir agua y tornasol azul, la solución vira a ROJO ácido.'
+      },
+      C: {
+        name: 'Carbono (C)',
+        flameColor: '#FB923C',
+        gasColor: 'rgba(203, 213, 225, 0.28)',
+        eqCombustion: 'C(s) + O₂(g)  —Δ→  CO₂(g)',
+        eqHydration: 'CO₂(g) + H₂O(l)  ⇌  H₂CO₃(ac)',
+        iupac: 'Dióxido de carbono → Ácido trioxocarbónico(IV)',
+        trad: 'Anhídrido carbónico → Ácido carbónico',
+        macroDesc: 'Incandescencia naranja brillante y liberación de CO₂. En agua con indicador ácido-base vira a NARANJA/ROJO débil (ácido carbónico).'
+      },
+      P: {
+        name: 'Fósforo (P₄)',
+        flameColor: '#FDE047',
+        gasColor: 'rgba(255, 255, 255, 0.55)',
+        eqCombustion: 'P₄(s) + 5 O₂(g)  —Δ→  P₄O₁₀(s) [2 P₂O₅]',
+        eqHydration: 'P₂O₅(s) + 3 H₂O(l)  →  2 H₃PO₄(ac)',
+        iupac: 'Pentaóxido de difósforo → Ácido tetraoxofosfórico(V)',
+        trad: 'Anhídrido fosfórico → Ácido ortofosfórico',
+        macroDesc: 'Llama blanco-amarillenta intensa con densos humos blancos de anhídrido fosfórico que al hidratarse producen ácido fosfórico (tornasol ROJO).'
+      }
+    };
+
+    let simBStage = 'idle'; // idle | burning | hydrated
+    let simBAnimFrame = null;
+    let simBTick = 0;
+
+    function resetSimulatorB() {
+      simBStage = 'idle';
+      document.getElementById('simBIgniteBtn').disabled = false;
+      document.getElementById('simBHydrateBtn').disabled = true;
+      updateSimulatorBSymbolic();
+      drawSimulatorBCanvases();
+    }
+
+    function igniteBunsen() {
+      simBStage = 'burning';
+      document.getElementById('simBIgniteBtn').disabled = true;
+      document.getElementById('simBHydrateBtn').disabled = false;
+      updateSimulatorBSymbolic();
+      addXP(15, 'Combustión experimental iniciada');
+    }
+
+    function addWaterIndicator() {
+      simBStage = 'hydrated';
+      document.getElementById('simBHydrateBtn').disabled = true;
+      updateSimulatorBSymbolic();
+      addXP(25, 'Comprobación ácido-base de anhídrido');
+    }
+
+    function updateSimulatorBSymbolic() {
+      const key = document.getElementById('simBReactant').value;
+      const d = SIM_B_DATA[key];
+      const box = document.getElementById('simBSymbolicBox');
+
+      if (simBStage === 'idle') {
+        box.innerHTML = `<strong>Estado Inicial:</strong> Muestra sólida de <strong>${d.name}</strong> en cucharilla de combustión dentro de matraz con O₂(g). Enciende el mechero Bunsen para iniciar la oxidación.`;
+      } else if (simBStage === 'burning') {
+        box.innerHTML = `
+          <span class="badge badge-amber" style="margin-bottom:4px;">Etapa 1: Formación del Anhídrido</span><br>
+          <span class="mono" style="font-weight:700;">${d.eqCombustion}</span><br>
+          <strong>Nomenclatura:</strong> ${d.iupac.split('→')[0]} (${d.trad.split('→')[0]}). Ahora agrega agua + indicador para comprobar su carácter ácido.
+        `;
+      } else {
+        box.innerHTML = `
+          <span class="badge badge-rose" style="margin-bottom:4px;">Etapa 2: Hidratación y Viraje Ácido (pH &lt; 7)</span><br>
+          <span class="mono" style="font-weight:700;">${d.eqHydration}</span><br>
+          <strong>IUPAC / Tradicional:</strong> ${d.iupac} | ${d.trad}<br>
+          <span style="color:var(--text-muted);">${d.macroDesc}</span>
+        `;
+      }
+    }
+
+    function drawSimulatorBCanvases() {
+      if (simBAnimFrame) cancelAnimationFrame(simBAnimFrame);
+
+      function loop() {
+        simBTick += 0.06;
+        const key = document.getElementById('simBReactant').value;
+        const d = SIM_B_DATA[key];
+
+        // 1. Macroscopic Canvas
+        const cMacro = document.getElementById('canvasMacro');
+        if (cMacro) {
+          const ctx = cMacro.getContext('2d');
+          ctx.clearRect(0, 0, cMacro.width, cMacro.height);
+
+          // Erlenmeyer / Gas Jar
+          ctx.strokeStyle = '#94A3B8';
+          ctx.lineWidth = 2.5;
+          ctx.beginPath();
+          ctx.moveTo(125, 30); ctx.lineTo(195, 30);
+          ctx.lineTo(225, 185); ctx.lineTo(95, 185);
+          ctx.closePath();
+          ctx.stroke();
+
+          // Liquid at bottom
+          if (simBStage === 'hydrated') {
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.65)'; // Red acid indicator
+          } else {
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.25)'; // Neutral blue litmus water
+          }
+          ctx.beginPath();
+          ctx.moveTo(103, 148); ctx.lineTo(217, 148);
+          ctx.lineTo(224, 184); ctx.lineTo(96, 184);
+          ctx.closePath();
+          ctx.fill();
+
+          // Combustion spoon
+          ctx.strokeStyle = '#CBD5E1';
+          ctx.lineWidth = 3;
+          ctx.beginPath();
+          ctx.moveTo(160, 15); ctx.lineTo(160, 112);
+          ctx.stroke();
+          ctx.fillStyle = '#64748B';
+          ctx.beginPath();
+          ctx.arc(160, 114, 10, 0, Math.PI, false);
+          ctx.fill();
+
+          // Sample + Flame + Gas
+          if (simBStage === 'burning') {
+            const flicker = Math.sin(simBTick * 4) * 3;
+            ctx.fillStyle = d.flameColor;
+            ctx.beginPath();
+            ctx.ellipse(160, 102 + flicker * 0.4, 9, 15 + flicker, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Gas clouds inside flask
+            ctx.fillStyle = d.gasColor;
+            for (let i = 0; i < 6; i++) {
+              const gx = 135 + ((i * 23 + simBTick * 12) % 55);
+              const gy = 65 + Math.sin(simBTick + i) * 14;
+              ctx.beginPath();
+              ctx.arc(gx, gy, 12, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          } else if (simBStage === 'idle') {
+            ctx.fillStyle = key === 'S' ? '#FACC15' : (key === 'C' ? '#334155' : '#FEF08A');
+            ctx.beginPath();
+            ctx.arc(160, 111, 6, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          ctx.fillStyle = '#E2E8F0';
+          ctx.font = '11px Inter, sans-serif';
+          ctx.fillText(simBStage === 'hydrated' ? 'Indicador: ROJO (Medio Ácido)' : 'Indicador: Tornasol Azul', 14, 208);
+        }
+
+        // 2. Submicroscopic Canvas
+        const cMicro = document.getElementById('canvasMicro');
+        if (cMicro) {
+          const ctx = cMicro.getContext('2d');
+          ctx.clearRect(0, 0, cMicro.width, cMicro.height);
+
+          const nonMetalColor = key === 'S' ? '#FACC15' : (key === 'C' ? '#94A3B8' : '#FB923C');
+
+          for (let i = 0; i < 5; i++) {
+            const cx = 65 + (i % 3) * 90 + Math.cos(simBTick + i) * 14;
+            const cy = 65 + Math.floor(i / 3) * 85 + Math.sin(simBTick * 1.2 + i) * 12;
+
+            if (simBStage === 'idle') {
+              // Separate Non-metal + O2
+              ctx.fillStyle = nonMetalColor;
+              ctx.beginPath(); ctx.arc(cx - 18, cy, 9, 0, Math.PI * 2); ctx.fill();
+              ctx.fillStyle = '#EF4444';
+              ctx.beginPath(); ctx.arc(cx + 12, cy, 7, 0, Math.PI * 2); ctx.fill();
+              ctx.beginPath(); ctx.arc(cx + 23, cy, 7, 0, Math.PI * 2); ctx.fill();
+            } else if (simBStage === 'burning') {
+              // Bent XO2 anhydride molecule
+              ctx.fillStyle = nonMetalColor;
+              ctx.beginPath(); ctx.arc(cx, cy - 4, 10, 0, Math.PI * 2); ctx.fill();
+              ctx.fillStyle = '#EF4444';
+              ctx.beginPath(); ctx.arc(cx - 13, cy + 7, 7.5, 0, Math.PI * 2); ctx.fill();
+              ctx.beginPath(); ctx.arc(cx + 13, cy + 7, 7.5, 0, Math.PI * 2); ctx.fill();
+            } else {
+              // Hydrated oxoacid + H3O+ ions
+              ctx.fillStyle = nonMetalColor;
+              ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI * 2); ctx.fill();
+              ctx.fillStyle = '#EF4444';
+              ctx.beginPath(); ctx.arc(cx - 13, cy - 6, 7, 0, Math.PI * 2); ctx.fill();
+              ctx.beginPath(); ctx.arc(cx + 13, cy - 6, 7, 0, Math.PI * 2); ctx.fill();
+              ctx.beginPath(); ctx.arc(cx, cy + 14, 7, 0, Math.PI * 2); ctx.fill();
+              ctx.fillStyle = '#FFFFFF';
+              ctx.beginPath(); ctx.arc(cx + 22, cy + 12, 4.5, 0, Math.PI * 2); ctx.fill();
+            }
+          }
+
+          ctx.fillStyle = '#E2E8F0';
+          ctx.font = '11px Inter, sans-serif';
+          ctx.fillText(
+            simBStage === 'idle' ? `Átomos ${key} + moléculas O₂` :
+            (simBStage === 'burning' ? `Moléculas de anhídrido (${key}O₂)` : 'Oxácido hidratado + iones H⁺'),
+            14, 208
+          );
+        }
+
+        simBAnimFrame = requestAnimationFrame(loop);
+      }
+      loop();
+    }
+
+    /* =====================================================================
+       7. DIAGNOSTIC MOCK EXAMS
+    ====================================================================== */
+    let currentQuizOrder = [...QUIZ_BANK];
+
+    function shuffleAndRenderQuiz() {
+      currentQuizOrder = [...QUIZ_BANK].sort(() => Math.random() - 0.5);
+      renderQuizList();
+      showToast('Preguntas aleatorizadas');
+    }
+
+    function renderQuizList() {
+      const filter = document.getElementById('quizTopicFilter').value;
+      const items = filter === 'all' ? currentQuizOrder : currentQuizOrder.filter(q => q.topic === filter);
+      const container = document.getElementById('quizContainer');
+
+      let answeredCount = 0;
+      let correctCount = 0;
+      Object.entries(state.quizAnswered).forEach(([qid, ansIdx]) => {
+        const found = QUIZ_BANK.find(x => x.id === qid);
+        if (found) {
+          answeredCount++;
+          if (found.correct === ansIdx) correctCount++;
+        }
+      });
+      document.getElementById('quizScoreText').textContent = `Respondidas: ${answeredCount} / ${QUIZ_BANK.length} | Aciertos: ${correctCount}`;
+
+      container.innerHTML = items.map((item, idx) => {
+        const userChoice = state.quizAnswered[item.id];
+        const isAnswered = userChoice !== undefined;
+        return `
+          <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <span class="badge badge-cyan">${item.topicLabel}</span>
+              <span style="font-size:0.76rem;color:var(--text-soft);">Ítem #${idx + 1}</span>
+            </div>
+            <h4 style="font-size:0.95rem;margin-bottom:12px;">${item.q}</h4>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              ${item.options.map((opt, oIdx) => {
+                let style = 'background:var(--bg-surface);border:1px solid var(--border-color);';
+                if (isAnswered) {
+                  if (oIdx === item.correct) style = 'background:var(--emerald-light);border:1.5px solid var(--emerald-ok);font-weight:600;';
+                  else if (oIdx === userChoice) style = 'background:var(--rose-light);border:1.5px solid var(--rose-err);';
+                }
+                return `
+                  <button type="button" onclick="answerQuizQuestion('${item.id}', ${oIdx})" style="text-align:left;padding:10px 12px;border-radius:8px;cursor:pointer;color:var(--text-main);font-size:0.85rem;${style}">
+                    <strong>${String.fromCharCode(65 + oIdx)})</strong> ${opt}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+            ${isAnswered ? `
+              <div style="margin-top:12px;padding:12px;border-radius:8px;background:var(--bg-surface);border-left:4px solid ${userChoice === item.correct ? 'var(--emerald-ok)' : 'var(--amber-warn)'};font-size:0.84rem;">
+                <strong>${userChoice === item.correct ? '✓ Diagnóstico Correcto:' : '⚠ Retroalimentación Conceptual:'}</strong> ${item.explanation}
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function answerQuizQuestion(qid, optionIdx) {
+      const firstTime = state.quizAnswered[qid] === undefined;
+      state.quizAnswered[qid] = optionIdx;
+      const item = QUIZ_BANK.find(q => q.id === qid);
+      if (firstTime && item && item.correct === optionIdx) {
+        addXP(25, 'Diagnóstico conceptual aprobado');
+      } else {
+        saveState();
+      }
+      renderQuizList();
+    }
+
+    /* =====================================================================
+       8. SOCRATIC AI CHEMISTRY TUTOR (OFFLINE RULE ENGINE + GUARDRAIL)
+    ====================================================================== */
+    function initTutorChat() {
+      const win = document.getElementById('tutorChatWindow');
+      win.innerHTML = `
+        <div class="chat-msg bot">
+          <strong>Bienvenido al Tutor Socrático de Química (QCB 111).</strong><br>
+          Para promover el <em>aprendizaje significativo (Ausubel)</em>, no te daré respuestas directas para copiar: construiremos juntos el razonamiento paso a paso conectando estructura electrónica y reglas IUPAC.<br><br>
+          Escribe una fórmula química (ej. <span class="mono">SO3</span>, <span class="mono">H2SO4</span>, <span class="mono">Fe2O3</span>, <span class="mono">CH3COCH3</span>) o selecciona una consulta rápida arriba.
+        </div>
+      `;
+    }
+
+    function sendTutorQuick(text) {
+      document.getElementById('tutorInput').value = text;
+      handleTutorSubmit(new Event('submit'));
+    }
+
+    function saveOptionalApiKey() {
+      const val = document.getElementById('optionalApiKey').value.trim();
+      localStorage.setItem('umsa_qcb111_optional_key', val);
+      showToast(val ? 'Clave API guardada localmente' : 'Clave eliminada');
+    }
+
+    function generateSocraticResponse(query) {
+      const q = query.trim();
+      const lower = q.toLowerCase();
+
+      if (lower.includes('anhídrido') || lower.includes('anhidrido') || lower.includes('so3') || lower.includes('so₂')) {
+        return `
+          <strong>Guía Paso a Paso: Nomenclatura y Formación de Anhídridos (Ej. <span class="mono">SO₃</span>)</strong><br><br>
+          <strong>Paso 1 — Naturaleza del compuesto:</strong> Observa que combina un <em>no metal</em> (Azufre, grupo 16) con Oxígeno. Por tanto, es un <strong>óxido ácido o anhídrido</strong>.<br>
+          <strong>Paso 2 — Balance electrónico:</strong> El oxígeno actúa con estado de oxidación <span class="mono">-2</span>. Como hay 3 oxígenos (<span class="mono">3 × -2 = -6</span>), el azufre debe aportar <span class="mono">+6</span> para mantener la neutralidad.<br>
+          <strong>Paso 3 — Regla IUPAC y Tradicional:</strong><br>
+          • <em>IUPAC Sistemática:</em> Usa prefijos griegos de atomicidad → <strong>Trióxido de azufre</strong>.<br>
+          • <em>Tradicional:</em> El azufre tiene valencias +2 (hipo-oso), +4 (-oso) y +6 (-ico). Al usar +6, corresponde <strong>Anhídrido sulfúrico</strong>.<br><br>
+          <em>🔍 Verificación activa:</em> Si hacemos reaccionar este <span class="mono">SO₃</span> con una molécula de <span class="mono">H₂O</span>, ¿qué fórmula tendría el oxácido resultante?
+        `;
+      }
+
+      if (lower.includes('alcohol') || lower.includes('cetona') || lower.includes('carbox') || lower.includes('carbonilo') || lower.includes('ch3coch3')) {
+        return `
+          <strong>Andamiaje Estructural: Alcohol vs. Cetona vs. Ácido Carboxílico</strong><br><br>
+          <strong>Paso 1 — Presencia del grupo carbonilo (<span class="mono">C=O</span>):</strong><br>
+          • <strong>Alcohol (<span class="mono">R–OH</span>):</strong> <em>No posee</em> grupo carbonilo. Solo tiene un grupo hidroxilo (<span class="mono">-OH</span>) unido por enlace simple a un carbono sp³ (sufijo <strong>-ol</strong>).<br>
+          • <strong>Cetona (<span class="mono">R–CO–R’</span>):</strong> <em>Sí posee</em> grupo carbonilo (<span class="mono">C=O</span>) ubicado en un carbono secundario interno entre dos cadenas carbonadas (sufijo <strong>-ona</strong>, ej. propanona).<br>
+          • <strong>Ácido carboxílico (<span class="mono">R–COOH</span>):</strong> Integra en el mismo carbono terminal un grupo carbonilo (<span class="mono">C=O</span>) <strong>y</strong> un hidroxilo (<span class="mono">-OH</span>), formando el grupo carboxilo (<strong>Ácido ...-oico</strong>).<br><br>
+          <em>🔍 Verificación activa:</em> En la molécula <span class="mono">CH₃–CH₂–CHO</span>, el grupo <span class="mono">C=O</span> está en un extremo unido a un hidrógeno. ¿Es una cetona o un aldehído?
+        `;
+      }
+
+      if (lower.includes('radio') || lower.includes('ionización') || lower.includes('ionizacion') || lower.includes('periódica')) {
+        return `
+          <strong>Deducción Electrónica de Tendencias Periódicas</strong><br><br>
+          <strong>Paso 1 — Variación en un Grupo (de arriba hacia abajo):</strong> Al descender (ej. <span class="mono">Be → Mg → Ca → Sr → Ba → Ra</span>) aumenta el nivel cuántico principal (<span class="mono">n</span>). Se añaden nuevas capas electrónicas que aumentan el apantallamiento, por lo que el <strong>radio atómico aumenta</strong> y la <strong>energía de ionización disminuye</strong>.<br>
+          <strong>Paso 2 — Variación en un Periodo (de izquierda a derecha):</strong> Se mantiene la misma capa de valencia pero aumenta el número de protones (<span class="mono">Z</span>). La mayor carga nuclear efectiva atrae más cerca a los electrones, haciendo que el <strong>radio disminuya</strong>.<br><br>
+          <em>🔍 Verificación activa:</em> Comparando el átomo neutro de Litio (<span class="mono">Li</span>) y su catión (<span class="mono">Li⁺</span>) del Salar de Uyuni, ¿cuál tiene menor radio y por qué?
+        `;
+      }
+
+      if (lower.includes('h2so4') || lower.includes('ácido') || lower.includes('acido') || lower.includes('hno3')) {
+        return `
+          <strong>Análisis Paso a Paso de Oxácidos (Ej. <span class="mono">${q.toUpperCase()}</span>)</strong><br><br>
+          <strong>Paso 1 — Estructura ternaria:</strong> Está formado por Hidrógeno (<span class="mono">+1</span>), un No Metal central y Oxígeno (<span class="mono">-2</span>).<br>
+          <strong>Paso 2 — Cálculo algebraico del estado de oxidación:</strong><br>
+          Plantea la suma de cargas igual a cero: <span class="mono">(#H)(+1) + (x) + (#O)(-2) = 0</span>. Por ejemplo, en <span class="mono">H₂SO₄</span>: <span class="mono">2(+1) + x + 4(-2) = 0 → x = +6</span>.<br>
+          <strong>Paso 3 — Asignación de sufijo:</strong> Con valencia +6 (la mayor del azufre), el sufijo tradicional es <strong>-ico</strong> (<em>Ácido sulfúrico</em>) y en IUPAC es <em>Tetraoxosulfato(VI) de hidrógeno</em>.<br><br>
+          <em>🔍 Verificación activa:</em> Si en lugar de 4 oxígenos tuviéramos <span class="mono">H₂SO₃</span>, ¿cuál sería el nuevo estado de oxidación del azufre?
+        `;
+      }
+
+      // Generic Socratic chemical analyzer
+      return `
+        <strong>Análisis Socrático de tu consulta: «${q}»</strong><br><br>
+        <strong>Paso 1 — Clasificación funcional:</strong> Identifica primero si las especies involucradas son metales (tendencia a ceder electrones y formar cationes/óxidos básicos) o no metales (tendencia a compartir o ganar electrones formando anhídridos/oxácidos).<br>
+        <strong>Paso 2 — Regla de neutralidad:</strong> En toda fórmula química neutra, la suma de los estados de oxidación multiplicados por sus subíndices debe ser exactamente <strong>cero</strong>.<br>
+        <strong>Paso 3 — Conexión Johnstone:</strong> Recuerda vincular la fórmula simbólica con las partículas submicroscópicas y su comportamiento observable en laboratorio.<br><br>
+        <em>🔍 Verificación activa:</em> ¿Qué elementos y qué estados de oxidación identificas en el compuesto o fenómeno que estás analizando?
+      `;
+    }
+
+    function handleTutorSubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById('tutorInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const win = document.getElementById('tutorChatWindow');
+      win.innerHTML += `<div class="chat-msg user">${text}</div>`;
+      input.value = '';
+
+      const reply = generateSocraticResponse(text);
+      setTimeout(() => {
+        win.innerHTML += `<div class="chat-msg bot">${reply}</div>`;
+        win.scrollTop = win.scrollHeight;
+      }, 220);
+    }
+
+    /* =====================================================================
+       9. VIRTUAL CLASSROOM (AULA VIRTUAL)
+    ====================================================================== */
+    function renderClassroom() {
+      const totalTasks = CLASSROOM_UNITS.reduce((acc, u) => acc + u.tasks.length, 0);
+      const pct = Math.round((state.completedTasks.length / totalTasks) * 100);
+      document.getElementById('aulaProgressBadge').textContent = `Progreso: ${pct}% (${state.completedTasks.length}/${totalTasks})`;
+
+      const container = document.getElementById('classroomUnitsContainer');
+      container.innerHTML = CLASSROOM_UNITS.map(u => {
+        const res = RESOURCES[u.resourceKey];
+        return `
+          <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
+            <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:10px;">
+              <div>
+                <h4 style="font-size:1rem;">${u.title}</h4>
+                <p style="font-size:0.82rem;color:var(--text-muted);">${u.desc}</p>
+              </div>
+              <div style="display:flex;gap:6px;">
+                <button class="btn btn-outline btn-sm" onclick="openResourceModal('${res.id}')">Material: ${res.title.split('—')[0]}</button>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              ${u.tasks.map(t => {
+                const done = state.completedTasks.includes(t.id);
+                const linkVal = state.taskLinks[t.id] || '';
+                return `
+                  <div style="background:var(--bg-surface);border:1px solid var(--border-color);border-radius:8px;padding:10px 12px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;">
+                    <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.86rem;font-weight:500;">
+                      <input type="checkbox" ${done ? 'checked' : ''} onchange="toggleClassroomTask('${t.id}', ${t.xp})" style="width:17px;height:17px;accent-color:#059669;" />
+                      <span style="${done ? 'text-decoration:line-through;color:var(--text-soft);' : ''}">${t.title}</span>
+                    </label>
+                    <div style="display:flex;align-items:center;gap:6px;">
+                      <input type="text" placeholder="Enlace o nota de entrega..." value="${linkVal}" onchange="saveTaskLink('${t.id}', this.value)" style="width:210px;padding:5px 8px;font-size:0.78rem;" />
+                      <span class="badge ${done ? 'badge-emerald' : 'badge-amber'}">+${t.xp} XP</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleClassroomTask(taskId, xp) {
+      const idx = state.completedTasks.indexOf(taskId);
+      if (idx === -1) {
+        state.completedTasks.push(taskId);
+        addXP(xp, 'Actividad de Aula Virtual completada');
+      } else {
+        state.completedTasks.splice(idx, 1);
+        saveState();
+      }
+      renderClassroom();
+    }
+
+    function saveTaskLink(taskId, val) {
+      state.taskLinks[taskId] = val.trim();
+      saveState();
+      showToast('Registro de entrega guardado');
+    }
+
+    /* =====================================================================
+       10. ACADEMIC CALENDAR
+    ====================================================================== */
+    let calCurrentDate = new Date();
+
+    function changeCalMonth(delta) {
+      calCurrentDate = new Date(calCurrentDate.getFullYear(), calCurrentDate.getMonth() + delta, 1);
+      renderCalendar();
+    }
+
+    function renderCalendar() {
+      const year = calCurrentDate.getFullYear();
+      const month = calCurrentDate.getMonth();
+      const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      document.getElementById('calendarMonthTitle').textContent = `${monthNames[month]} ${year} — QCB 111`;
+
+      const firstDay = new Date(year, month, 1).getDay(); // 0=Sun
+      const startOffset = (firstDay + 6) % 7; // Mon=0
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const todayStr = new Date().toISOString().slice(0, 10);
+
+      const dayHeaders = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'].map(d => `<div class="cal-day-head">${d}</div>`).join('');
+      let cells = '';
+      for (let i = 0; i < startOffset; i++) {
+        cells += `<div class="cal-cell" style="opacity:0.4;"></div>`;
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const dayEvents = state.events.filter(e => e.date === dateStr);
+        const isToday = dateStr === todayStr;
+        cells += `
+          <div class="cal-cell ${isToday ? 'today' : ''}">
+            <strong>${day}</strong>
+            ${dayEvents.map(ev => `<div class="cal-event-pill" title="${ev.title}">${ev.title}</div>`).join('')}
+          </div>
+        `;
+      }
+      document.getElementById('calendarGrid').innerHTML = dayHeaders + cells;
+
+      // Upcoming list
+      const sorted = [...state.events].sort((a, b) => a.date.localeCompare(b.date));
+      document.getElementById('upcomingEventsList').innerHTML = sorted.map(ev => `
+        <div style="background:var(--bg-subtle);padding:8px 10px;border-radius:8px;border:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:0.8rem;">
+          <div>
+            <span class="mono" style="font-size:0.72rem;color:var(--cyan-accent);">${ev.date}</span> • <strong>${ev.type}</strong>
+            <div>${ev.title}</div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="deleteCalendarEvent('${ev.id}')" title="Eliminar">✕</button>
+        </div>
+      `).join('');
+    }
+
+    function addCalendarEvent(e) {
+      e.preventDefault();
+      const date = document.getElementById('evDate').value;
+      const title = document.getElementById('evTitle').value.trim();
+      const type = document.getElementById('evType').value;
+      if (!date || !title) return;
+      state.events.push({ id: 'ev_' + Date.now(), date, title, type });
+      document.getElementById('evTitle').value = '';
+      addXP(15, 'Recordatorio añadido al calendario');
+      renderCalendar();
+    }
+
+    function deleteCalendarEvent(id) {
+      state.events = state.events.filter(e => e.id !== id);
+      saveState();
+      renderCalendar();
+    }
+
+    /* =====================================================================
+       11. SYMBIOTIC FORUM (BIOTIC INTERACTION)
+    ====================================================================== */
+    function renderForum() {
+      const filter = document.getElementById('forumFilterTag').value;
+      const list = filter === 'all' ? state.forumThreads : state.forumThreads.filter(t => t.tag === filter);
+      const container = document.getElementById('forumThreadsContainer');
+
+      container.innerHTML = list.map(th => `
+        <div style="background:var(--bg-subtle);border:1px solid var(--border-color);border-radius:12px;padding:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:6px;">
+            <span class="badge badge-purple">${th.tag}</span>
+            <span style="font-size:0.76rem;color:var(--text-soft);">Publicado por <strong>${th.author}</strong></span>
+          </div>
+          <h4 style="font-size:0.96rem;margin-bottom:6px;">${th.title}</h4>
+          <p style="font-size:0.84rem;color:var(--text-muted);margin-bottom:10px;">${th.body}</p>
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+            <button class="btn btn-outline btn-sm" onclick="upvoteThread('${th.id}')">▲ Útil (${th.votes})</button>
+            <span style="font-size:0.78rem;color:var(--text-soft);">${th.replies.length} respuestas simbióticas</span>
+          </div>
+
+          ${th.replies.length ? `
+            <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px;padding-left:12px;border-left:3px solid var(--emerald-ok);">
+              ${th.replies.map(r => `
+                <div style="background:var(--bg-surface);padding:8px 10px;border-radius:8px;font-size:0.82rem;">
+                  <strong>${r.author}:</strong> ${r.text}
+                </div>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          <form onsubmit="replyForumThread(event, '${th.id}')" style="display:flex;gap:8px;">
+            <input type="text" id="replyInput_${th.id}" placeholder="Aportar respuesta o retroalimentación..." required style="font-size:0.82rem;padding:7px 10px;" />
+            <button type="submit" class="btn btn-primary btn-sm">Responder</button>
+          </form>
+        </div>
+      `).join('');
+    }
+
+    function createForumThread(e) {
+      e.preventDefault();
+      const tag = document.getElementById('forumTag').value;
+      const title = document.getElementById('forumTitle').value.trim();
+      const body = document.getElementById('forumBody').value.trim();
+      if (!title || !body) return;
+
+      state.forumThreads.unshift({
+        id: 'f_' + Date.now(),
+        tag,
+        author: `${state.userName} (${state.userRole})`,
+        title,
+        body,
+        votes: 1,
+        replies: []
+      });
+      document.getElementById('forumTitle').value = '';
+      document.getElementById('forumBody').value = '';
+      addXP(20, 'Aporte publicado en el Foro Simbiótico');
+      renderForum();
+    }
+
+    function replyForumThread(e, threadId) {
+      e.preventDefault();
+      const inp = document.getElementById(`replyInput_${threadId}`);
+      const text = inp.value.trim();
+      if (!text) return;
+      const th = state.forumThreads.find(t => t.id === threadId);
+      if (th) {
+        th.replies.push({ author: state.userName, text });
+        addXP(15, 'Respuesta colaborativa en foro');
+        renderForum();
+      }
+    }
+
+    function upvoteThread(threadId) {
+      const th = state.forumThreads.find(t => t.id === threadId);
+      if (th) {
+        th.votes++;
+        saveState();
+        renderForum();
+      }
+    }
+
+    /* =====================================================================
+       12. WEEKLY TIMED CHALLENGE, LEADERBOARD & BADGES
+    ====================================================================== */
+    let challengeTimer = null;
+    let challengeSeconds = 60;
+    let challengePool = [];
+    let challengeIndex = 0;
+    let challengeHits = 0;
+
+    function startWeeklyChallenge() {
+      clearInterval(challengeTimer);
+      challengeSeconds = 60;
+      challengePool = [...FORMULATION_BANK].sort(() => Math.random() - 0.5).slice(0, 10);
+      challengeIndex = 0;
+      challengeHits = 0;
+      document.getElementById('challengeTimerBadge').textContent = '60s';
+      renderChallengeQuestion();
+
+      challengeTimer = setInterval(() => {
+        challengeSeconds--;
+        document.getElementById('challengeTimerBadge').textContent = `${challengeSeconds}s`;
+        if (challengeSeconds <= 0) {
+          finishWeeklyChallenge();
+        }
+      }, 1000);
+    }
+
+    function renderChallengeQuestion() {
+      if (challengeIndex >= challengePool.length) {
+        finishWeeklyChallenge();
+        return;
+      }
+      const item = challengePool[challengeIndex];
+      document.getElementById('challengeArena').innerHTML = `
+        <div style="margin-bottom:8px;">
+          <span class="badge badge-cyan">Fórmula ${challengeIndex + 1} de 10</span>
+          <span class="badge badge-emerald">Aciertos: ${challengeHits}</span>
+        </div>
+        <h4 style="font-size:1.1rem;margin-bottom:12px;">${item.prompt}</h4>
+        <form onsubmit="submitChallengeStep(event)" style="display:flex;gap:8px;max-width:420px;margin:0 auto;">
+          <input type="text" id="challengeInput" class="mono" placeholder="Ej. H2SO4" autocomplete="off" required />
+          <button type="submit" class="btn btn-emerald">Enviar</button>
+        </form>
+      `;
+      setTimeout(() => document.getElementById('challengeInput')?.focus(), 40);
+    }
+
+    function submitChallengeStep(e) {
+      e.preventDefault();
+      const item = challengePool[challengeIndex];
+      const val = normalizeFormula(document.getElementById('challengeInput').value);
+      const validSet = [normalizeFormula(item.answer), ...item.alt.map(normalizeFormula)];
+      if (validSet.includes(val)) {
+        challengeHits++;
+      }
+      challengeIndex++;
+      renderChallengeQuestion();
+    }
+
+    function finishWeeklyChallenge() {
+      clearInterval(challengeTimer);
+      const earned = challengeHits * 30;
+      document.getElementById('challengeArena').innerHTML = `
+        <h4 style="font-size:1.12rem;margin-bottom:6px;">¡Reto Completado!</h4>
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:12px;">Lograste <strong>${challengeHits} / 10</strong> fórmulas correctas en el tiempo límite.</p>
+        <button class="btn btn-primary" onclick="startWeeklyChallenge()">Volver a Intentar</button>
+      `;
+      if (earned > 0) addXP(earned, `Reto semanal (${challengeHits} aciertos)`);
+    }
+
+    function renderLeaderboard() {
+      const samplePeers = [
+        { name: 'Valeria Choque', role: 'Estudiante QCB 111', xp: 680 },
+        { name: 'Mateo Ticona', role: 'Estudiante QCB 111', xp: 510 },
+        { name: 'Sofía Apaza', role: 'Estudiante QCB 111', xp: 340 },
+        { name: 'Luis Fernando Copa', role: 'Estudiante QCB 111', xp: 190 },
+        { name: state.userName, role: state.userRole, xp: state.xp, isMe: true }
+      ];
+      samplePeers.sort((a, b) => b.xp - a.xp);
+
+      document.getElementById('leaderboardBody').innerHTML = samplePeers.map((p, i) => `
+        <tr style="${p.isMe ? 'background:var(--cyan-light);font-weight:700;' : ''}">
+          <td>#${i + 1}</td>
+          <td>${p.name} ${p.isMe ? '(Tú)' : ''}</td>
+          <td><span class="badge badge-cyan">${getLevelInfo(p.xp).label}</span></td>
+          <td class="mono">${p.xp} XP</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderBadges() {
+      document.getElementById('badgesGrid').innerHTML = BADGES_DEF.map(b => {
+        const unlocked = state.xp >= b.reqXp;
+        return `
+          <div style="background:var(--bg-subtle);border:1px solid ${unlocked ? 'var(--emerald-ok)' : 'var(--border-color)'};border-radius:10px;padding:14px;opacity:${unlocked ? '1' : '0.58'};">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <strong>${b.name}</strong>
+              <span class="badge ${unlocked ? 'badge-emerald' : 'badge-amber'}">${unlocked ? 'Desbloqueada' : b.reqXp + ' XP'}</span>
+            </div>
+            <p style="font-size:0.8rem;color:var(--text-muted);">${b.desc}</p>
+          </div>
+        `;
+      }).join('');
+    }
+
+    /* =====================================================================
+       13. REFERENCE TABLES (REPOSITORIES VIEW)
+    ====================================================================== */
+    function renderReferenceTables() {
+      const term = (document.getElementById('refSearchInput')?.value || '').toLowerCase();
+
+      const valFiltered = REFERENCE_VALENCES.filter(v =>
+        v.elem.toLowerCase().includes(term) || v.sym.toLowerCase().includes(term) || v.term.toLowerCase().includes(term)
+      );
+      document.getElementById('refValencesBody').innerHTML = valFiltered.map(v => `
+        <tr>
+          <td><strong>${v.elem}</strong></td>
+          <td class="mono">${v.sym}</td>
+          <td class="mono">${v.val}</td>
+          <td>${v.term}</td>
+        </tr>
+      `).join('');
+
+      const fnFiltered = REFERENCE_FUNCTIONAL.filter(f =>
+        f.func.toLowerCase().includes(term) || f.group.toLowerCase().includes(term) || f.suffix.toLowerCase().includes(term)
+      );
+      document.getElementById('refFunctionalBody').innerHTML = fnFiltered.map(f => `
+        <tr>
+          <td><strong>${f.func}</strong></td>
+          <td class="mono">${f.group}</td>
+          <td><span class="badge ${f.carbonyl.startsWith('Sí') ? 'badge-amber' : 'badge-cyan'}">${f.carbonyl}</span></td>
+          <td class="mono">${f.suffix}</td>
+        </tr>
+      `).join('');
+    }
+
+    /* =====================================================================
+       14. BOOTSTRAP
+    ====================================================================== */
+    function initAllViews() {
+      document.documentElement.setAttribute('data-theme', state.theme);
+      renderDashboardResources();
+      renderGamesCards();
+      initMiniGameRound();
+      initSimulatorASelects();
+      resetSimulatorB();
+      renderQuizList();
+      initTutorChat();
+      renderClassroom();
+      renderCalendar();
+      renderForum();
+      renderReferenceTables();
+      updateHeaderAndDashboard();
+    }
+
+    window.addEventListener('DOMContentLoaded', initAllViews);
+  </script>
+</body>
+</html>
